@@ -9,31 +9,35 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+    <!-- JavaScript script files -->
+    <script src="./JavaScript/shoeCatalog.js"></script>
+
     <!-- tailwind cdn -->
     <script src="https://cdn.tailwindcss.com"></script>
 
   </head> 
-  <body
-    x-data="{
-    title: 'Shoe catalog',
-    shoes: []
-}" x-init="
-            axios
-                .get('https://api-for-shoes.onrender.com/api/shoes')
-                .then(result => shoes = result.data.data);
-        "
-  >
-
-  <h1 x-text="title"></h1>
+  <body x-data="catalog">
+    
+    <h1 x-text="title"></h1>
+    <!-- navbar -->
+    <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
+    
+  <!-- shopping cart component -->
   
+
+  <!-- shoes component -->
   <template x-for="shoe in shoes">
-    <ul>
-        <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
-        <li x-text="shoe.shoe_name"></li>
-        <li x-text="shoe.description"></li>
-        <li x-text="shoe.shoe_qty"></li>
-        <li x-text="shoe.shoe_price"></li>
-    </ul>
+    <div class="shoe">
+      <ul>
+          <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
+          <li x-text="shoe.shoe_name"></li>
+          <li x-text="shoe.description"></li>
+          <li x-text="shoe.shoe_qty"></li>
+          <li x-text="shoe.shoe_price"></li>
+          <li><button class="bg-[#ffa470] hover:bg-[#DB814D] rounded-full"><strong>Quick Add+</strong></button></li>
+      </ul>
+    </div>
   </template>
 
 </body>
