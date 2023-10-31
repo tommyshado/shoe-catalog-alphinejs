@@ -5,21 +5,78 @@ document.addEventListener("alpine:init", () => {
             shoes: [],
             cart: [],
             total: 0.00,
-            getCart() {
-                const headers = {
-                    'Content-Type': 'application/json',
-                    'auth-token': 'JWT token...'
-                };
-                const cart = "https://api-for-shoes.onrender.com/api/cart";
-                return axios.get(cart, {
-                    headers: headers
+            jwtToken: null,
+
+            // Headers
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': this.jwtToken
+            },
+
+            // user loggin in
+            getLogin: {
+                name: "",
+                email: "",
+                password: ""
+            },
+            login() {
+                const loginUrl = "https://api-for-shoes.onrender.com/api/user/login";
+                return axios.post(loginUrl, this.getLogin);
+            },
+
+            // GET the token from the API
+            getToken() {
+                this.login().then(result => {
+                    this.jwtToken = result.data.token;
+                    // Redirect to the home page
+                    if (this.jwtToken) {
+                        window.location.href = "index.html";
+                    } else {
+                        window.location.href = "login.html";
+                    };
                 });
             },
-            init() {
-                axios
-                    .get("https://api-for-shoes.onrender.com/api/shoes")
-                    .then(result => this.shoes = result.data.data)
 
+            // Cart functionality
+            getCart() {
+                const cartUrl = "https://api-for-shoes.onrender.com/api/cart";
+                return axios.get(cartUrl, {
+                    headers: this.headers
+                });
+            },
+            addShoe(shoeId) {
+               const addUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/add`;
+               return axios.post(addUrl, {
+                    headers: this.headers
+               });
+            },
+            removeShoe() {
+                const removeUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/remove`;
+                return axios.post(removeUrl, {
+                    headers: this.headers
+               });
+            },
+            addShoeToCart(shoeId) {
+                this
+                    .addShoe(shoeId)
+                    .then(result => {
+                        const response = result.data;
+                        if(response.status === "success") {
+                            this.showCart();
+                        };
+                    })
+            },
+            removeShoeFromCart() {
+                this
+                    .removeShoe(shoeId)
+                    .then(result => {
+                        const response = result.data;
+                        if(response.status === "success") {
+                            this.showCart();
+                        };
+                    })
+            },
+            showCart() {
                 this.getCart().then(result => {
                     // Cart data
                     const data = result.data;
@@ -30,6 +87,15 @@ document.addEventListener("alpine:init", () => {
                     this.cart = cart__;
                     this.total = cartTotal;
                 })
+            },
+
+            init() {
+                axios
+                    .get("https://api-for-shoes.onrender.com/api/shoes")
+                    .then(result => this.shoes = result.data.data)
+
+                // SHOW the cart
+                this.showCart();
             },
         };
     });

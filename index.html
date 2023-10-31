@@ -1,44 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
 
-    <!-- cdn script tags -->
-    <script src="//unpkg.com/alpinejs" defer></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <!-- cdn script tags -->
+      <script src="//unpkg.com/alpinejs" defer></script>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="https://cdn.tailwindcss.com"></script>
+      
+    </head> 
+    
+    <body x-data="catalog">
+      
+      <h1 x-text="title"></h1>
+      <!-- navbar -->
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+      
+      <!-- shopping cart component -->
+      <table class="table-auto">
+        <tr>
+          <th>Brand name</th>
+          <th>Increase</th>
+          <th>Decrease</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </tr>
+      
+        <template x-for="shoe in cart">
 
-    <!-- JavaScript script files -->
+            <tr>
+              <t x-text="shoe.shoe_name"></td>
+              <td>
+                  <button type="submit">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      class="bi bi-plus-lg"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+                      />
+                    </svg>
+                  </button>
+              </td>
+          
+              <td>
+                
+                  <button type="submit">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      class="bi bi-dash"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
+                      />
+                    </svg>
+                  </button>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+    
+          </table>
+          <label>Total</label><span></span>
+
+        </template>
+      
+      
+      <!-- shoes component -->
+      <div class="shoe flex justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <template x-for="shoe in shoes">
+            <ul>
+              <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
+              <li x-text="shoe.shoe_name"></li>
+              <li x-text="shoe.description"></li>
+              <li x-text="shoe.shoe_qty"></li>
+              <li x-text="shoe.shoe_price"></li>
+              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] rounded-full" @click="addShoe(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
+            </ul>
+          </template>
+      </div>
+
+    <!-- script tags -->
     <script src="./JavaScript/shoeCatalog.js"></script>
-
-    <!-- tailwind cdn -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-  </head> 
-  <body x-data="catalog">
-    
-    <h1 x-text="title"></h1>
-    <!-- navbar -->
-    <a href="login.html">Login</a>
-    <a href="signup.html">Signup</a>
-    
-  <!-- shopping cart component -->
-  
-
-  <!-- shoes component -->
-  <template x-for="shoe in shoes">
-    <div class="shoe">
-      <ul>
-          <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
-          <li x-text="shoe.shoe_name"></li>
-          <li x-text="shoe.description"></li>
-          <li x-text="shoe.shoe_qty"></li>
-          <li x-text="shoe.shoe_price"></li>
-          <li><button class="bg-[#ffa470] hover:bg-[#DB814D] rounded-full"><strong>Quick Add+</strong></button></li>
-      </ul>
-    </div>
-  </template>
-
-</body>
+  </body>
 </html>
