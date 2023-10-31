@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>signup</title>
-</head>
-<body>
-    <div class="py-4">
-        <label name="name" for="name"><strong>Username</strong></label>
-        <div>
-            <input
-            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-            name="name"
-            type="text"
-            placeholder="Enter your name"
-            />
-        </div>
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>signup</title>
 
-    <div class="py-4">
-        <label name="email" for="email"><strong>Email</strong></label>
-        <div>
-            <input
-            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-            name="email"
-            type="text"
-            placeholder="Enter your email"
-            />
-        </div>
-    </div>
+        <!-- cdn tags -->
+        <script src="//unpkg.com/alpinejs" defer></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
 
-    <div class="py-4">
-        <label for="password"><strong>Password</strong></label>
-        <div class="relative">
-            <input
-            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-            name="password"
-            type="text"
-            placeholder="Enter your password"
-            required
-            />
+    </head>
+
+    <body x-data="catalog">
+        <!-- messsage section -->
+        <div class="errorMsg"></div>
+
+        <form @submit.prevent="signup()">
+            <div class="py-2">
+                <label name="name" for="name"><strong>Username</strong></label>
+                <div>
+                    <input
+                    x-model="getSignup.name"
+                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    />
+                </div>
             </div>
-        </div>
-    </div>
+    
+            <div class="py-2">
+                <label name="email" for="email"><strong>Email</strong></label>
+                <div>
+                    <input
+                    x-model="getSignup.email"
+                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    />
+                </div>
+            </div>
+    
+            <div class="py-2">
+                <label for="password"><strong>Password</strong></label>
+                <div class="relative">
+                    <input
+                    x-model="getSignup.password"
+                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                    />
+                    </div>
+                </div>
+            </div>
+    
+            <div class="py-6">
+                <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Signup</strong></button>
+            </div>
+        </form>
+    </body>
 
-    <div class="py-12">
-        <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Signup</strong></button>
-    </div>
-</body>
+    <!-- script tags -->
+    <script src="./JavaScript/shoeCatalog.js"></script>
 </html>

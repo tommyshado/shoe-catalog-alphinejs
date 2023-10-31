@@ -13,8 +13,11 @@
     </head>
 
     <body x-data="catalog">
+        <!-- messsage section -->
+        <div class="errorMsg"></div>
+
         <form @submit.prevent="getToken()">
-            <div>
+            <div class="py-2">
                 <label name="name" for="name"><strong>Username</strong></label>
                 <div>
                     <input
@@ -27,7 +30,7 @@
                 </div>
             </div>
     
-            <div>
+            <div class="py-2">
                 <label name="email" for="email"><strong>Email</strong></label>
                 <div>
                     <input
@@ -40,7 +43,7 @@
                 </div>
             </div>
     
-            <div>
+            <div class="py-2">
                 <label for="password"><strong>Password</strong></label>
                 <div class="relative">
                     <input
@@ -49,12 +52,13 @@
                     name="password"
                     type="password"
                     placeholder="Enter your password"
+                    required
                     />
                     </div>
                 </div>
             </div>
     
-            <div>
+            <div class="py-4">
                 <button class="loginBtn bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Login</strong></button>
             </div>
     

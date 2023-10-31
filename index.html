@@ -20,70 +20,70 @@
       <a href="signup.html">Signup</a>
       
       <!-- shopping cart section -->
-      <table class="table-auto">
-        <tr>
-          <th>Brand</th>
-          <th>Increase</th>
-          <th>Decrease</th>
-          <th>Quantity</th>
-          <th>Total</th>
-        </tr>
-        
-        <template x-for="shoe in cart">
-
+      <div x-show="total > 0">
+        <table class="table-auto">
           <tr>
-              <td x-text="shoe.shoe_name"></td>
-              <td>
-                  <button @click="addShoeToCart(shoe.shoe_id)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="currentColor"
-                      class="bi bi-plus-lg"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-                      />
-                    </svg>
-                  </button>
-              </td>
-              <td>
-                  <button @click="removeShoeFromCart(shoe.shoe_id)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="currentColor"
-                      class="bi bi-dash"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
-                      />
-                    </svg>
-                  </button>
-              </td>
-              <td x-text="shoe.quantity"></td>
-              <td x-text="shoe.total"></td>
-            </tr>
-        </template>
+            <th>Brand</th>
+            <th>Increase</th>
+            <th>Decrease</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+          
+          <template x-for="shoe in cart">
+            <tr>
+                <td x-text="shoe.shoe_name"></td>
+                <td>
+                    <button @click="addShoeToCart(shoe.shoe_id)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="currentColor"
+                        class="bi bi-plus-lg"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+                        />
+                      </svg>
+                    </button>
+                </td>
+                <td>
+                    <button @click="removeShoeFromCart(shoe.shoe_id)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="currentColor"
+                        class="bi bi-dash"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
+                        />
+                      </svg>
+                    </button>
+                </td>
+                <td x-text="shoe.quantity"></td>
+                <td x-text="shoe.total"></td>
+              </tr>
+          </template>
+        </table>
 
-      </table>
-
-      <!-- cart total -->
-      <span>Total</span><label x-text="total"></label><span></span>
-
-      <!-- payment section -->
-      <div>
-        <span>Payment here: </span><input name="payment" type="number">
-        <button type="submit">
-            pay
-        </button>
+        <!-- cart total -->
+        <span>Total</span><label x-text="total"></label><span></span>
+  
+        <!-- payment section -->
+        <div>
+          <span>Payment here: </span><input name="payment" type="number">
+          <button type="submit">
+              pay
+          </button>
+        </div>
       </div>
-      
+
       <!-- shoes section -->
       <div class="shoe flex justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <template x-for="shoe in shoes">
@@ -93,12 +93,13 @@
               <li x-text="shoe.description"></li>
               <li x-text="shoe.shoe_qty"></li>
               <li x-text="shoe.shoe_price"></li>
-              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] rounded-full" @click="addShoe(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
+              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] rounded-full" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
             </ul>
           </template>
       </div>
 
+    </body>
+
     <!-- script tags -->
     <script src="./JavaScript/shoeCatalog.js"></script>
-  </body>
 </html>

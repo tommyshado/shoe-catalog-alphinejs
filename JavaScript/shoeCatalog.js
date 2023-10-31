@@ -1,3 +1,7 @@
+// Elements references
+const signupErrorMsg = document.querySelector(".errorMsg");
+const loginErrorMsg = document.querySelector(".errorMsg");
+
 document.addEventListener("alpine:init", () => {
     Alpine.data("catalog", () => {
         return {
@@ -12,7 +16,7 @@ document.addEventListener("alpine:init", () => {
                 'auth-token': localStorage["token"]
             },
 
-            // user loggin in
+            // user login
             getLogin: {
                 name: "",
                 email: "",
@@ -26,11 +30,50 @@ document.addEventListener("alpine:init", () => {
             // GET the token from the API
             getToken() {
                 this.login().then(result => {
+                    // get the error
+                    const { error } = result.data;
+                    if (error) {
+                        signupErrorMsg.innerHTML = error;
+                        // Set the values in the signup input areas to default
+                        this.getLogin.name = "";
+                        this.getLogin.email = "";
+                        this.getLogin.password = "";
+                        return;
+                    };
+
                     localStorage["token"] = result.data.token;
                     // Redirect to the home page
                     if (localStorage["token"]) {
                         window.location.href = "index.html";
                     } else {
+                        window.location.href = "login.html";
+                    };
+                });
+            },
+
+            // user signup
+            getSignup: {
+                name: "",
+                email: "",
+                password: ""
+            },
+            signup() {
+                const signupUrl = "https://api-for-shoes.onrender.com/api/user/signup";
+                return axios.post(signupUrl, this.getSignup).then(result => {
+
+                    // get the error
+                    const { error } = result.data;
+                    if (error) {
+                        errorMsg.innerHTML = error;
+                        // Set the values in the signup input areas to default
+                        this.getSignup.name = "";
+                        this.getSignup.email = "";
+                        this.getSignup.password = "";
+                        return;
+                    };
+
+                    const response = result.data;
+                    if (response.status === "success") {
                         window.location.href = "login.html";
                     };
                 });
@@ -45,30 +88,26 @@ document.addEventListener("alpine:init", () => {
             },
             addShoe(shoeId) {
                const addUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/add`;
-               return axios.post(addUrl, {
+               return axios.post(addUrl, {}, {
                     headers: this.headers
                });
             },
-            removeShoe() {
+            removeShoe(shoeId) {
                 const removeUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/remove`;
-                return axios.post(removeUrl, {
+                return axios.post(removeUrl, {}, {
                     headers: this.headers
                });
             },
             addShoeToCart(shoeId) {
-                this
-                    .addShoe(shoeId)
-                    .then(result => {
+                this.addShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {
                             this.showCart();
                         };
                     })
             },
-            removeShoeFromCart() {
-                this
-                    .removeShoe(shoeId)
-                    .then(result => {
+            removeShoeFromCart(shoeId) {
+                this.removeShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {
                             this.showCart();
@@ -85,6 +124,10 @@ document.addEventListener("alpine:init", () => {
                     this.cart = data.cart;
                     this.total = cartTotal;
                 })
+            },
+
+            payment() {
+
             },
 
             init() {
