@@ -192,6 +192,7 @@ document.addEventListener("alpine:init", () => {
 
                         setTimeout(() => {
                             paymentMsg.innerHTML = "";
+                            location.reload();
                         }, 3000);
                     };
                 });
