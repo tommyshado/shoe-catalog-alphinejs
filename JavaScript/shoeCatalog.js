@@ -11,13 +11,16 @@ document.addEventListener("alpine:init", () => {
             cart: [],
             total: 0.00,
 
+            // Add shoe
+            createShoe: false,
+
             // payment
             cartPay: 0.00,
 
             // Headers
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage["token"]
+                'auth-token':   localStorage["token"] || localStorage["adminToken"]
             },
 
             // user login
@@ -37,20 +40,35 @@ document.addEventListener("alpine:init", () => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
-                        signupErrorMsg.innerHTML = error;
+                        loginErrorMsg.innerHTML = error;
+                        loginErrorMsg.classList.add("text-[#ff4a1c]");
                         // Set the values in the signup input areas to default
                         this.getLogin.name = "";
                         this.getLogin.email = "";
                         this.getLogin.password = "";
+
+                        setTimeout(() => {
+                            loginErrorMsg.innerHTML = "";
+                        }, 3000);
+
                         return;
                     };
 
-                    localStorage["token"] = result.data.token;
-                    // Redirect to the home page
-                    if (localStorage["token"]) {
+                    const token = result.data.token;
+                    const checkName = this.getLogin.name === "tendani";
+
+                    if (checkName) {
+                        localStorage["adminToken"] = token;
+                        // Redirect to the home page
+                        if (localStorage["adminToken"]) {
+                            window.location.href = "index.html";
+                        } else {
+                            window.location.href = "login.html";
+                        };
+
+                    } else if (!checkName) {
+                        localStorage["token"] = token;
                         window.location.href = "index.html";
-                    } else {
-                        window.location.href = "login.html";
                     };
                 });
             },
@@ -68,11 +86,17 @@ document.addEventListener("alpine:init", () => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
-                        errorMsg.innerHTML = error;
+                        signupErrorMsg.innerHTML = error;
+                        signupErrorMsg.classList.add("text-[#ff4a1c]");
                         // Set the values in the signup input areas to default
                         this.getSignup.name = "";
                         this.getSignup.email = "";
                         this.getSignup.password = "";
+
+                        setTimeout(() => {
+                            signupErrorMsg.innerHTML = "";
+                        }, 3000);
+
                         return;
                     };
 
@@ -81,6 +105,13 @@ document.addEventListener("alpine:init", () => {
                         window.location.href = "login.html";
                     };
                 });
+            },
+
+            // Logout
+            logout() {
+                localStorage["token"] = "";
+                localStorage["adminToken"] = "";
+                window.location.href = "index.html";
             },
 
             // Cart functionality
@@ -143,14 +174,25 @@ document.addEventListener("alpine:init", () => {
                     const { error } = result.data;
                     if (error) {
                         paymentMsg.innerHTML = error;
+                        paymentMsg.classList.add("text-[#ff4a1c]");
+
+                        setTimeout(() => {
+                            paymentMsg.innerHTML = "";
+                        }, 3000);
+
                         return;
                     };
                     
                     const response = result.data;
                     if (response.status === "success") {
                         paymentMsg.innerHTML = "Payment successful.";
+                        paymentMsg.classList.add("text-[#1ed760]");
                         // Set the total to zero
                         this.total = 0.00
+
+                        setTimeout(() => {
+                            paymentMsg.innerHTML = "";
+                        }, 3000);
                     };
                 });
             },
@@ -162,6 +204,10 @@ document.addEventListener("alpine:init", () => {
 
                 // SHOW the cart
                 this.showCart();
+
+                if (localStorage["adminToken"]) {
+                    this.createShoe = true;
+                };
             },
         };
     });
