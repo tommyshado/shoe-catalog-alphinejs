@@ -15,26 +15,26 @@
     <body x-data="catalog">
       
       <h1 x-text="title"></h1>
-      <!-- navbar -->
+      <!-- navbar section -->
       <a href="login.html">Login</a>
       <a href="signup.html">Signup</a>
       
-      <!-- shopping cart component -->
+      <!-- shopping cart section -->
       <table class="table-auto">
         <tr>
-          <th>Brand name</th>
+          <th>Brand</th>
           <th>Increase</th>
           <th>Decrease</th>
           <th>Quantity</th>
           <th>Total</th>
         </tr>
-      
+        
         <template x-for="shoe in cart">
 
-            <tr>
-              <t x-text="shoe.shoe_name"></td>
+          <tr>
+              <td x-text="shoe.shoe_name"></td>
               <td>
-                  <button type="submit">
+                  <button @click="addShoeToCart(shoe.shoe_id)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -50,10 +50,8 @@
                     </svg>
                   </button>
               </td>
-          
               <td>
-                
-                  <button type="submit">
+                  <button @click="removeShoeFromCart(shoe.shoe_id)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -68,17 +66,25 @@
                     </svg>
                   </button>
               </td>
-              <td></td>
-              <td></td>
+              <td x-text="shoe.quantity"></td>
+              <td x-text="shoe.total"></td>
             </tr>
-    
-          </table>
-          <label>Total</label><span></span>
-
         </template>
+
+      </table>
+
+      <!-- cart total -->
+      <span>Total</span><label x-text="total"></label><span></span>
+
+      <!-- payment section -->
+      <div>
+        <span>Payment here: </span><input name="payment" type="number">
+        <button type="submit">
+            pay
+        </button>
+      </div>
       
-      
-      <!-- shoes component -->
+      <!-- shoes section -->
       <div class="shoe flex justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <template x-for="shoe in shoes">
             <ul>

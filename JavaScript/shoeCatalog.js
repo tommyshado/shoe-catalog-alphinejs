@@ -5,12 +5,11 @@ document.addEventListener("alpine:init", () => {
             shoes: [],
             cart: [],
             total: 0.00,
-            jwtToken: null,
 
             // Headers
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': this.jwtToken
+                'auth-token': localStorage["token"]
             },
 
             // user loggin in
@@ -27,9 +26,9 @@ document.addEventListener("alpine:init", () => {
             // GET the token from the API
             getToken() {
                 this.login().then(result => {
-                    this.jwtToken = result.data.token;
+                    localStorage["token"] = result.data.token;
                     // Redirect to the home page
-                    if (this.jwtToken) {
+                    if (localStorage["token"]) {
                         window.location.href = "index.html";
                     } else {
                         window.location.href = "login.html";
@@ -80,11 +79,10 @@ document.addEventListener("alpine:init", () => {
                 this.getCart().then(result => {
                     // Cart data
                     const data = result.data;
-                    const cart__ = data.data;
                     const cartTotal = data.total;
 
                     // Set global variables
-                    this.cart = cart__;
+                    this.cart = data.cart;
                     this.total = cartTotal;
                 })
             },
