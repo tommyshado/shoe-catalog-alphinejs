@@ -1,6 +1,7 @@
 // Elements references
 const signupErrorMsg = document.querySelector(".errorMsg");
 const loginErrorMsg = document.querySelector(".errorMsg");
+const paymentMsg = document.querySelector(".payment");
 
 document.addEventListener("alpine:init", () => {
     Alpine.data("catalog", () => {
@@ -9,6 +10,9 @@ document.addEventListener("alpine:init", () => {
             shoes: [],
             cart: [],
             total: 0.00,
+
+            // payment
+            cartPay: 0.00,
 
             // Headers
             headers: {
@@ -126,8 +130,29 @@ document.addEventListener("alpine:init", () => {
                 })
             },
 
-            payment() {
+            pay() {
+                const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
+                return axios.post(paymentUrl, { payment: this.cartPay }, {
+                    headers: this.headers
+                });
+            },
 
+            paymentForCart() {
+                this.pay().then(result => {
+                    // get the error
+                    const { error } = result.data;
+                    if (error) {
+                        paymentMsg.innerHTML = error;
+                        return;
+                    };
+                    
+                    const response = result.data;
+                    if (response.status === "success") {
+                        paymentMsg.innerHTML = "Payment successful.";
+                        // Set the total to zero
+                        this.total = 0.00
+                    };
+                });
             },
 
             init() {

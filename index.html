@@ -18,6 +18,9 @@
       <!-- navbar section -->
       <a href="login.html">Login</a>
       <a href="signup.html">Signup</a>
+
+      <!-- message section -->
+      <div class="payment"></div>
       
       <!-- shopping cart section -->
       <div x-show="total > 0">
@@ -77,8 +80,8 @@
   
         <!-- payment section -->
         <div>
-          <span>Payment here: </span><input name="payment" type="number">
-          <button type="submit">
+          <span>Payment here: </span><input x-model="cartPay" name="payment" type="number">
+          <button type="submit" @click="paymentForCart()">
               pay
           </button>
         </div>
