@@ -19,7 +19,7 @@
         <h1><strong>Shesha store</strong></h1>
         <a x-show="!loggedIn" href="login.html">Login</a>
         <a x-show="!loggedIn" href="signup.html">Signup</a>
-        <button @click="logout()">
+        <button x-show="loggedIn" @click="logout()">
           logout
         </button>
       </nav>
@@ -106,137 +106,135 @@
 
         <!-- creating a shoe section -->
         <div x-show="createShoe">
-          <form @submit.prevent="">
+          <div>
+            <label for="shoeName">
+              <strong>
+                Add a shoe to the catalog
+              </strong>
+            </label>
+      
             <div>
-              <label for="shoeName">
-                <strong>
-                  Add a shoe to the catalog
-                </strong>
-              </label>
-        
-              <div>
-                <div class="py-2">
-                  <label for="shoeName">Name of the shoe</label>
-                  <div>
-                    <input
-                      x-model="shoe.shoeName"
-                      class="focus:bg-white rounded-md border-2"
-                      name="shoeName"
-                      type="text"
-                      placeholder="enter shoe name"
-                      required
-                    />
-                  </div>
+              <div class="py-2">
+                <label for="shoeName">Name of the shoe</label>
+                <div>
+                  <input
+                    x-model="shoe.shoeName"
+                    class="focus:bg-white rounded-md border-2"
+                    name="shoeName"
+                    type="text"
+                    placeholder="enter shoe name"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="description">Shoe description</label>
-                  <div>
-                    <input
-                      x-model="shoe.description"
-                      class="focus:bg-white rounded-md border-2"
-                      name="description"
-                      type="text"
-                      placeholder="enter image description"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="description">Shoe description</label>
+                <div>
+                  <input
+                    x-model="shoe.description"
+                    class="focus:bg-white rounded-md border-2"
+                    name="description"
+                    type="text"
+                    placeholder="enter image description"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="ageGroup">Catagory</label>
-                  <div>
-                    <input
-                      x-model="shoe.ageGroup"
-                      class="focus:bg-white rounded-md border-2"
-                      name="ageGroup"
-                      type="text"
-                      placeholder="enter men, women or kid"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="ageGroup">Catagory</label>
+                <div>
+                  <input
+                    x-model="shoe.ageGroup"
+                    class="focus:bg-white rounded-md border-2"
+                    name="ageGroup"
+                    type="text"
+                    placeholder="enter men, women or kid"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="image">Shoe image</label>
-                  <div>
-                    <input
-                      x-model="shoe.image"
-                      class="focus:bg-white rounded-md border-2"
-                      name="image"
-                      type="text"
-                      placeholder="enter image url"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="image">Shoe image</label>
+                <div>
+                  <input
+                    x-model="shoe.image"
+                    class="focus:bg-white rounded-md border-2"
+                    name="image"
+                    type="text"
+                    placeholder="enter image url"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="qty">Shoe quantity</label>
-                  <div>
-                    <input
-                      x-model="shoe.qty"
-                      class="focus:bg-white rounded-md border-2"
-                      name="qty"
-                      type="number"
-                      placeholder="enter number of stock"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="qty">Shoe quantity</label>
+                <div>
+                  <input
+                    x-model="shoe.qty"
+                    class="focus:bg-white rounded-md border-2"
+                    name="qty"
+                    type="number"
+                    placeholder="enter number of stock"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="shoePrice">Price of the shoe</label>
-                  <div>
-                    <input
-                    x-model="shoe.shoePrice"
-                      class="focus:bg-white rounded-md border-2"
-                      name="shoePrice"
-                      type="number"
-                      placeholder="enter a shoe price"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="shoePrice">Price of the shoe</label>
+                <div>
+                  <input
+                  x-model="shoe.shoePrice"
+                    class="focus:bg-white rounded-md border-2"
+                    name="shoePrice"
+                    type="number"
+                    placeholder="enter a shoe price"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="shoeColor">Color of the shoe</label>
-                  <div>
-                    <input
-                      x-model="shoe.shoeColor"
-                      class="focus:bg-white rounded-md border-2"
-                      name="shoeColor"
-                      type="text"
-                      placeholder="enter a shoe color"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="shoeColor">Color of the shoe</label>
+                <div>
+                  <input
+                    x-model="shoe.shoeColor"
+                    class="focus:bg-white rounded-md border-2"
+                    name="shoeColor"
+                    type="text"
+                    placeholder="enter a shoe color"
+                    required
+                  />
                 </div>
-        
-                <div class="py-2">
-                  <label for="shoeSize">Size of the shoe</label>
-                  <div>
-                    <input
-                      x-model="shoe.shoeSize"
-                      class="focus:bg-white rounded-md border-2"
-                      name="shoeSize"
-                      type="number"
-                      placeholder="enter a shoe size"
-                      required
-                    />
-                  </div>
+              </div>
+      
+              <div class="py-2">
+                <label for="shoeSize">Size of the shoe</label>
+                <div>
+                  <input
+                    x-model="shoe.shoeSize"
+                    class="focus:bg-white rounded-md border-2"
+                    name="shoeSize"
+                    type="number"
+                    placeholder="enter a shoe size"
+                    required
+                  />
                 </div>
               </div>
             </div>
-        
-            <div>
-              <button @click="showShoe()" type="submit">
-                <strong>
-                  Add shoe
-                </strong>
-              </button>
-            </div>
-          </form>
+          </div>
+      
+          <div>
+            <button @click="showShoe()" type="submit">
+              <strong>
+                Add shoe
+              </strong>
+            </button>
+          </div>
         </div>
       </div>
 

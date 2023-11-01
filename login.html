@@ -13,66 +13,67 @@
     </head>
 
     <body x-data="catalog">
-        <div class="py-20">
-            <div class="flex justify-center items-center">
-                <h1><strong>Login Page</strong></h1>
-            </div>
-
-            <!-- messsage section -->
-            <div class="errorMsg"></div>
+        <div class="flex justify-center items-center">
+            <div class="py-20">
+                <div class="heading">
+                    <h1><strong>Login Page</strong></h1>
+                </div>
     
-            <div class="flex justify-center items-center">
-                <form @submit.prevent="getToken()">
-                    <div class="py-2">
-                        <label name="name" for="name"><strong>Username</strong></label>
-                        <div>
-                            <input
-                            x-model="getLogin.name"
-                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                            name="name"
-                            type="text"
-                            placeholder="Enter your name"
-                            />
-                        </div>
-                    </div>
-            
-                    <div class="py-2">
-                        <label name="email" for="email"><strong>Email</strong></label>
-                        <div>
-                            <input
-                            x-model="getLogin.email"
-                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                            name="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            />
-                        </div>
-                    </div>
-            
-                    <div class="py-2">
-                        <label for="password"><strong>Password</strong></label>
-                        <div class="relative">
-                            <input
-                            x-model="getLogin.password"
-                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                            name="password"
-                            type="password"
-                            placeholder="Enter your password"
-                            required
-                            />
+                <!-- messsage section -->
+                <div class="errorMsg"></div>
+        
+                <div class="loginForm">
+                    <form @submit.prevent="getToken()">
+                        <div class="py-2">
+                            <label name="name" for="name"><strong>Username</strong></label>
+                            <div>
+                                <input
+                                x-model="getLogin.name"
+                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                                name="name"
+                                type="text"
+                                placeholder="Enter your name"
+                                />
                             </div>
                         </div>
-                    </div>
-            
-                    <div class="py-4">
-                        <button class="loginBtn bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Login</strong></button>
+                
                         <div class="py-2">
-                            <span class="text-[#242424]"><strong>Not registered?</strong></span>
-                            <a class="text-[#DB814D]" href="signup.html">Register here</a>
+                            <label name="email" for="email"><strong>Email</strong></label>
+                            <div>
+                                <input
+                                x-model="getLogin.email"
+                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email"
+                                />
+                            </div>
                         </div>
-                    </div>
-            
-                </form>
+                
+                        <div class="py-2">
+                            <label for="password"><strong>Password</strong></label>
+                            <div class="relative">
+                                <input
+                                x-model="getLogin.password"
+                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                                name="password"
+                                type="password"
+                                placeholder="Enter your password"
+                                required
+                                />
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="py-4">
+                            <button class="loginBtn bg-[#ffa470] hover:bg-[#DB814D] w-1/2 rounded-full" type="submit"><strong>Login</strong></button>
+                            <div class="py-2">
+                                <span class="text-[#242424]"><strong>Not registered?</strong></span>
+                                <a class="text-[#DB814D]" href="signup.html">Register here</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </body>
