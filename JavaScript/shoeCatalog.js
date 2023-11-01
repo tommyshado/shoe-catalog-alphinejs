@@ -6,13 +6,15 @@ const paymentMsg = document.querySelector(".payment");
 document.addEventListener("alpine:init", () => {
     Alpine.data("catalog", () => {
         return {
-            title: "Shesha store",
             shoes: [],
             cart: [],
             total: 0.00,
 
             // Add shoe
             createShoe: false,
+
+            // Logged in
+            loggedIn: false,
 
             // payment
             cartPay: 0.00,
@@ -127,9 +129,9 @@ document.addEventListener("alpine:init", () => {
                     headers: this.headers
                });
             },
-            removeShoe(shoeId) {
-                const removeUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/remove`;
-                return axios.post(removeUrl, {}, {
+            decrementShoe(shoeId) {
+                const decreaseQtyUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/remove`;
+                return axios.post(decreaseQtyUrl, {}, {
                     headers: this.headers
                });
             },
@@ -141,8 +143,8 @@ document.addEventListener("alpine:init", () => {
                         };
                     })
             },
-            removeShoeFromCart(shoeId) {
-                this.removeShoe(shoeId).then(result => {
+            decrementShoeQty(shoeId) {
+                this.decrementShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {
                             this.showCart();
@@ -161,6 +163,7 @@ document.addEventListener("alpine:init", () => {
                 })
             },
 
+            // Payment
             pay() {
                 const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
                 return axios.post(paymentUrl, { payment: this.cartPay }, {
@@ -198,6 +201,22 @@ document.addEventListener("alpine:init", () => {
                 });
             },
 
+            // Remove a shoe in the cart
+            removeShoe(shoeId) {
+                const removeUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/removeAShoe`;
+                return axios.post(removeUrl, {}, {
+                    headers: this.headers
+               });
+            },
+            removeShoeFromCart(shoeId) {
+                this.removeShoe(shoeId).then(result => {
+                    const response = result.data;
+                    if(response.status === "success") {
+                        this.showCart();
+                    };
+                })
+            },
+
             init() {
                 axios
                     .get("https://api-for-shoes.onrender.com/api/shoes")
@@ -208,6 +227,10 @@ document.addEventListener("alpine:init", () => {
 
                 if (localStorage["adminToken"]) {
                     this.createShoe = true;
+                    this.loggedIn = true;
+
+                } else if (localStorage["token"]) {
+                    this.loggedIn = true;
                 };
             },
         };

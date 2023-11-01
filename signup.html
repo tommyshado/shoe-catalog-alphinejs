@@ -13,55 +13,63 @@
     </head>
 
     <body x-data="catalog">
-        <!-- messsage section -->
-        <div class="errorMsg"></div>
-
-        <form @submit.prevent="signup()">
-            <div class="py-2">
-                <label name="name" for="name"><strong>Username</strong></label>
-                <div>
-                    <input
-                    x-model="getSignup.name"
-                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                    name="name"
-                    type="text"
-                    placeholder="Enter your name"
-                    />
-                </div>
+        <div class="py-20">
+            <div class="flex justify-center items-center">
+                <h1><strong>Signup Page</strong></h1>
             </div>
     
-            <div class="py-2">
-                <label name="email" for="email"><strong>Email</strong></label>
-                <div>
-                    <input
-                    x-model="getSignup.email"
-                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    />
-                </div>
-            </div>
+            <!-- messsage section -->
+            <div class="errorMsg"></div>
     
-            <div class="py-2">
-                <label for="password"><strong>Password</strong></label>
-                <div class="relative">
-                    <input
-                    x-model="getSignup.password"
-                    class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                    />
+            <div class="flex justify-center items-center">
+                <form @submit.prevent="signup()">
+                    <div class="py-2">
+                        <label name="name" for="name"><strong>Username</strong></label>
+                        <div>
+                            <input
+                            x-model="getSignup.name"
+                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                            name="name"
+                            type="text"
+                            placeholder="Enter your name"
+                            />
+                        </div>
                     </div>
-                </div>
+            
+                    <div class="py-2">
+                        <label name="email" for="email"><strong>Email</strong></label>
+                        <div>
+                            <input
+                            x-model="getSignup.email"
+                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                            name="email"
+                            type="email"
+                            placeholder="Enter your email"
+                            />
+                        </div>
+                    </div>
+            
+                    <div class="py-2">
+                        <label for="password"><strong>Password</strong></label>
+                        <div class="relative">
+                            <input
+                            x-model="getSignup.password"
+                            class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
+                            name="password"
+                            type="password"
+                            placeholder="Enter your password"
+                            required
+                            />
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="py-6">
+                        <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Signup</strong></button>
+                    </div>
+                </form>
             </div>
-    
-            <div class="py-6">
-                <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/6 rounded-full" type="submit"><strong>Signup</strong></button>
-            </div>
-        </form>
+        </div>
     </body>
 
     <!-- script tags -->
