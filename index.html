@@ -49,10 +49,10 @@
                         <button @click="addShoeToCart(shoe.shoe_id)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="30"
+                            height="30"
                             fill="currentColor"
-                            class="bi bi-plus-lg"
+                            class="bi bi-plus-lg fill-[#DB814D]"
                             viewBox="0 0 16 16"
                           >
                             <path
@@ -66,10 +66,10 @@
                         <button @click="decrementShoeQty(shoe.shoe_id)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="30"
+                            height="30"
                             fill="currentColor"
-                            class="bi bi-dash"
+                            class="bi bi-dash fill-[#DB814D]"
                             viewBox="0 0 16 16"
                           >
                             <path
@@ -79,7 +79,7 @@
                         </button>
                     </td>
                     <td x-text="shoe.quantity"></td>
-                    <td x-text="shoe.total"></td>
+                    <td x-text="'R' + ' ' + shoe.total"></td>
                     <td>
                       <button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
@@ -92,14 +92,16 @@
             </table>
     
             <!-- cart total -->
-            <span>Total</span><label x-text="total"></label><span></span>
+            <strong><span>Total </span></strong><label x-text="'R ' + total"></label><span></span>
       
             <!-- payment section -->
             <div>
-              <span>Payment here: </span><input x-model="cartPay" name="payment" type="number">
-              <button type="submit" @click="paymentForCart()">
+              <strong><span>Payment here: </span></strong><input x-model="cartPay" name="payment" type="number">
+              <strong>
+                <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/4 rounded-full" type="submit" @click="paymentForCart()">
                   pay
-              </button>
+                </button>
+              </strong>
             </div>
           </div>
         </div>
@@ -243,11 +245,11 @@
         <template x-for="shoe in shoes">
             <ul class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center">
               <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
-              <li x-text="shoe.shoe_name"></li>
-              <li x-text="shoe.description"></li>
-              <li x-text="shoe.shoe_qty"></li>
-              <li x-text="shoe.shoe_price"></li>
-              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/2 rounded-full" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
+              <strong><li x-text="'Brand: ' + shoe.shoe_name"></li></strong>
+              <strong><li x-text="'Description: ' + shoe.description"></li></strong>
+              <li x-text="'Quantity: ' + shoe.shoe_qty"></li>
+              <li x-text="'R ' + shoe.shoe_price"></li>
+              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/4 rounded-full" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
             </ul>
           </template>
       </div>
