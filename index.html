@@ -119,6 +119,7 @@
                   <label for="shoeName">Name of the shoe</label>
                   <div>
                     <input
+                      x-model="shoe.shoeName"
                       class="focus:bg-white rounded-md border-2"
                       name="shoeName"
                       type="text"
@@ -132,6 +133,7 @@
                   <label for="description">Shoe description</label>
                   <div>
                     <input
+                      x-model="shoe.description"
                       class="focus:bg-white rounded-md border-2"
                       name="description"
                       type="text"
@@ -145,6 +147,7 @@
                   <label for="ageGroup">Catagory</label>
                   <div>
                     <input
+                      x-model="shoe.ageGroup"
                       class="focus:bg-white rounded-md border-2"
                       name="ageGroup"
                       type="text"
@@ -158,6 +161,7 @@
                   <label for="image">Shoe image</label>
                   <div>
                     <input
+                      x-model="shoe.image"
                       class="focus:bg-white rounded-md border-2"
                       name="image"
                       type="text"
@@ -171,6 +175,7 @@
                   <label for="qty">Shoe quantity</label>
                   <div>
                     <input
+                      x-model="shoe.qty"
                       class="focus:bg-white rounded-md border-2"
                       name="qty"
                       type="number"
@@ -184,6 +189,7 @@
                   <label for="shoePrice">Price of the shoe</label>
                   <div>
                     <input
+                    x-model="shoe.shoePrice"
                       class="focus:bg-white rounded-md border-2"
                       name="shoePrice"
                       type="number"
@@ -197,6 +203,7 @@
                   <label for="shoeColor">Color of the shoe</label>
                   <div>
                     <input
+                      x-model="shoe.shoeColor"
                       class="focus:bg-white rounded-md border-2"
                       name="shoeColor"
                       type="text"
@@ -210,6 +217,7 @@
                   <label for="shoeSize">Size of the shoe</label>
                   <div>
                     <input
+                      x-model="shoe.shoeSize"
                       class="focus:bg-white rounded-md border-2"
                       name="shoeSize"
                       type="number"
@@ -222,7 +230,7 @@
             </div>
         
             <div>
-              <button type="submit">
+              <button @click="showShoe()" type="submit">
                 <strong>
                   Add shoe
                 </strong>

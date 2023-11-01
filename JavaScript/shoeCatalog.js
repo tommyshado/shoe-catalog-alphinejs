@@ -170,7 +170,6 @@ document.addEventListener("alpine:init", () => {
                     headers: this.headers
                 });
             },
-
             paymentForCart() {
                 this.pay().then(result => {
                     // get the error
@@ -215,6 +214,31 @@ document.addEventListener("alpine:init", () => {
                         this.showCart();
                     };
                 })
+            },
+
+            // Make a shoe to display in the catalog
+            shoe: {
+                shoeName: "",
+                description: "",
+                ageGroup: "",
+                image: "",
+                qty: "",
+                shoePrice: "",
+                shoeColor: "",
+                shoeSize: ""
+            },
+            makeAShoe() {
+                const shoes = "https://api-for-shoes.onrender.com/api/shoes";
+                return axios.post(shoes, this.shoe);
+            },
+            showShoe() {
+                this.makeAShoe().then(result => {
+                    const response = result.data;
+                    if (response.status === "success") {
+                        this.showCart();
+                        location.reload();
+                    };
+                });
             },
 
             init() {
