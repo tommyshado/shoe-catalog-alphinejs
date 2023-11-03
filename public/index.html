@@ -15,36 +15,44 @@
     <body x-data="catalog">
       
       <!-- navbar section -->
-      <nav>
-        <h1><strong>Shesha store</strong></h1>
-        <a x-show="!loggedIn" href="login.html">Login</a>
-        <a x-show="!loggedIn" href="signup.html">Signup</a>
-        <button x-show="loggedIn" @click="logout()">
-          logout
-        </button>
+      <nav class="bg-[#f6f6f6] py-4 flex justify-between items-center">
+        <h1><strong>Shesha footwear store</strong></h1>
+
+        <ul class="flex space-x-4">
+          <li><a x-show="!loggedIn" href="login.html">Login</a></li>
+          <li><a x-show="!loggedIn" href="signup.html">Signup</a></li>
+          <li style="margin-right: 2rem;">
+            <button x-show="loggedIn" @click="logout()">
+              logout
+            </button>
+          </li>
+        </ul>
       </nav>
   
       <!-- message section -->
+      <div class="errorMsg flex justify-center items-center"></div>
       <div class="payment flex justify-center items-center"></div>
+    
+      <!-- shopping cart section -->
+      <div class="bg-[#f6f6f6]" x-show="total > 0 && !createShoe">
 
-      <div class="main flex justify-center items-center">
-        <div class="cart justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-8">          
-          <!-- shopping cart section -->
-          <div x-show="total > 0">
+        <h2 class="flex justify-center items-center"><strong>Your Cart</strong></h2>
 
+        <div class="flex justify-center items-center">
+          <div class="cart">
             <table class="table-auto">
               <tr>
-                <th>Brand</th>
+                <th>Product</th>
                 <th>Increase</th>
                 <th>Decrease</th>
                 <th>Quantity</th>
-                <th>Total</th>
+                <th>Subtotal</th>
                 <th>Remove</th>
               </tr>
               
               <template x-for="shoe in cart">
                 <tr>
-                    <td x-text="shoe.shoe_name"></td>
+                    <td x-text="shoe.description"></td>
                     <td>
                         <button @click="addShoeToCart(shoe.shoe_id)">
                           <svg
@@ -52,7 +60,7 @@
                             width="30"
                             height="30"
                             fill="currentColor"
-                            class="bi bi-plus-lg fill-[#DB814D]"
+                            class="bi bi-plus-lg"
                             viewBox="0 0 16 16"
                           >
                             <path
@@ -69,7 +77,7 @@
                             width="30"
                             height="30"
                             fill="currentColor"
-                            class="bi bi-dash fill-[#DB814D]"
+                            class="bi bi-dash"
                             viewBox="0 0 16 16"
                           >
                             <path
@@ -82,7 +90,7 @@
                     <td x-text="'R' + ' ' + shoe.total"></td>
                     <td>
                       <button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash-fill fill-[#DB814D]" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                           <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                         </svg>
                       </button>
@@ -90,7 +98,7 @@
                   </tr>
               </template>
             </table>
-    
+  
             <!-- cart total -->
             <strong><span>Total </span></strong><label x-text="'R ' + total"></label><span></span>
       
@@ -98,158 +106,160 @@
             <div>
               <strong><span>Payment here: </span></strong><input x-model="cartPay" name="payment" type="number">
               <strong>
-                <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/4 rounded-full" type="submit" @click="paymentForCart()">
+                <button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit" @click="paymentForCart()">
                   pay
                 </button>
               </strong>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- creating a shoe section -->
-        <div x-show="createShoe && total === 0">
+      <!-- creating a shoe section -->
+      <div class="flex justify-center items-center" x-show="createShoe">
+        <div class="shoeForm">
+          <label for="shoeName">
+            <strong>
+              Add a shoe to the catalog
+            </strong>
+          </label>
+    
           <div>
-            <label for="shoeName">
-              <strong>
-                Add a shoe to the catalog
-              </strong>
-            </label>
-      
-            <div>
-              <div class="py-2">
-                <label for="shoeName">Name of the shoe</label>
-                <div>
-                  <input
-                    x-model="shoe.shoeName"
-                    class="focus:bg-white rounded-md border-2"
-                    name="shoeName"
-                    type="text"
-                    placeholder="enter shoe name"
-                    required
-                  />
-                </div>
+            <div class="py-2">
+              <label for="shoeName">Name of the shoe</label>
+              <div>
+                <input
+                  x-model="shoe.shoeName"
+                  class="focus:bg-white rounded-md border-2"
+                  name="shoeName"
+                  type="text"
+                  placeholder="enter shoe name"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="description">Shoe description</label>
-                <div>
-                  <input
-                    x-model="shoe.description"
-                    class="focus:bg-white rounded-md border-2"
-                    name="description"
-                    type="text"
-                    placeholder="enter image description"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="description">Shoe description</label>
+              <div>
+                <input
+                  x-model="shoe.description"
+                  class="focus:bg-white rounded-md border-2"
+                  name="description"
+                  type="text"
+                  placeholder="enter image description"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="ageGroup">Catagory</label>
-                <div>
-                  <input
-                    x-model="shoe.ageGroup"
-                    class="focus:bg-white rounded-md border-2"
-                    name="ageGroup"
-                    type="text"
-                    placeholder="enter men, women or kid"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="ageGroup">Catagory</label>
+              <div>
+                <input
+                  x-model="shoe.ageGroup"
+                  class="focus:bg-white rounded-md border-2"
+                  name="ageGroup"
+                  type="text"
+                  placeholder="enter men, women or kid"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="image">Shoe image</label>
-                <div>
-                  <input
-                    x-model="shoe.image"
-                    class="focus:bg-white rounded-md border-2"
-                    name="image"
-                    type="text"
-                    placeholder="enter image url"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="image">Shoe image</label>
+              <div>
+                <input
+                  x-model="shoe.image"
+                  class="focus:bg-white rounded-md border-2"
+                  name="image"
+                  type="text"
+                  placeholder="enter image url"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="qty">Shoe quantity</label>
-                <div>
-                  <input
-                    x-model="shoe.qty"
-                    class="focus:bg-white rounded-md border-2"
-                    name="qty"
-                    type="number"
-                    placeholder="enter number of stock"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="qty">Shoe quantity</label>
+              <div>
+                <input
+                  x-model="shoe.qty"
+                  class="focus:bg-white rounded-md border-2"
+                  name="qty"
+                  type="number"
+                  placeholder="enter number of stock"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="shoePrice">Price of the shoe</label>
-                <div>
-                  <input
-                  x-model="shoe.shoePrice"
-                    class="focus:bg-white rounded-md border-2"
-                    name="shoePrice"
-                    type="number"
-                    placeholder="enter a shoe price"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="shoePrice">Price of the shoe</label>
+              <div>
+                <input
+                x-model="shoe.shoePrice"
+                  class="focus:bg-white rounded-md border-2"
+                  name="shoePrice"
+                  type="number"
+                  placeholder="enter a shoe price"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="shoeColor">Color of the shoe</label>
-                <div>
-                  <input
-                    x-model="shoe.shoeColor"
-                    class="focus:bg-white rounded-md border-2"
-                    name="shoeColor"
-                    type="text"
-                    placeholder="enter a shoe color"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="shoeColor">Color of the shoe</label>
+              <div>
+                <input
+                  x-model="shoe.shoeColor"
+                  class="focus:bg-white rounded-md border-2"
+                  name="shoeColor"
+                  type="text"
+                  placeholder="enter a shoe color"
+                  required
+                />
               </div>
-      
-              <div class="py-2">
-                <label for="shoeSize">Size of the shoe</label>
-                <div>
-                  <input
-                    x-model="shoe.shoeSize"
-                    class="focus:bg-white rounded-md border-2"
-                    name="shoeSize"
-                    type="number"
-                    placeholder="enter a shoe size"
-                    required
-                  />
-                </div>
+            </div>
+    
+            <div class="py-2">
+              <label for="shoeSize">Size of the shoe</label>
+              <div>
+                <input
+                  x-model="shoe.shoeSize"
+                  class="focus:bg-white rounded-md border-2"
+                  name="shoeSize"
+                  type="number"
+                  placeholder="enter a shoe size"
+                  required
+                />
               </div>
             </div>
           </div>
-      
-          <div>
-            <button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/2 rounded-full" @click="showShoe()" type="submit">
+
+          <div class="flex justify-center items-center">
+            <button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] w-1/2 rounded-full" @click="showShoe()" type="submit">
               <strong>
                 Add shoe
               </strong>
             </button>
           </div>
         </div>
+    
       </div>
 
       <!-- shoes section -->
       <div class="shoe justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <template x-for="shoe in shoes">
-            <ul class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center">
+            <ul style="margin-left: 2rem;" class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center">
               <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
               <strong><li x-text="'Brand: ' + shoe.shoe_name"></li></strong>
               <strong><li x-text="'Description: ' + shoe.description"></li></strong>
               <li x-text="'Quantity: ' + shoe.shoe_qty"></li>
               <li x-text="'R ' + shoe.shoe_price"></li>
-              <li><button class="bg-[#ffa470] hover:bg-[#DB814D] w-1/4 rounded-full" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
+              <li class="flex justify-center items-center"><button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] w-1/4 rounded-full" x-show="!createShoe" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
+              <li class="flex justify-center items-center"><button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] w-1/4 rounded-full" x-show="createShoe" @click="addQty(shoe.shoe_id)"><strong>Add Qty+</strong></button></li>
             </ul>
           </template>
       </div>

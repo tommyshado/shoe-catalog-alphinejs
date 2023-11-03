@@ -1,6 +1,5 @@
 // Elements references
-const signupErrorMsg = document.querySelector(".errorMsg");
-const loginErrorMsg = document.querySelector(".errorMsg");
+const errorMsg = document.querySelector(".errorMsg");
 const paymentMsg = document.querySelector(".payment");
 
 document.addEventListener("alpine:init", () => {
@@ -25,15 +24,17 @@ document.addEventListener("alpine:init", () => {
                 'auth-token':   localStorage["token"] || localStorage["adminToken"]
             },
 
-            // user login
-            getLogin: {
+            // User
+            getUser: {
                 name: "",
                 email: "",
                 password: ""
             },
+
+            // user login
             login() {
                 const loginUrl = "https://api-for-shoes.onrender.com/api/user/login";
-                return axios.post(loginUrl, this.getLogin);
+                return axios.post(loginUrl, this.getUser);
             },
 
             // GET the token from the API
@@ -42,22 +43,22 @@ document.addEventListener("alpine:init", () => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
-                        loginErrorMsg.innerHTML = error;
-                        loginErrorMsg.classList.add("text-[#ff4a1c]");
+                        errorMsg.innerHTML = error;
+                        errorMsg.classList.add("text-[#ff4a1c]");
                         // Set the values in the signup input areas to default
-                        this.getLogin.name = "";
-                        this.getLogin.email = "";
-                        this.getLogin.password = "";
+                        this.getUser.name = "";
+                        this.getUser.email = "";
+                        this.getUser.password = "";
 
                         setTimeout(() => {
-                            loginErrorMsg.innerHTML = "";
+                            errorMsg.innerHTML = "";
                         }, 3000);
 
                         return;
                     };
 
                     const token = result.data.token;
-                    const checkName = this.getLogin.name === "tendani";
+                    const checkName = this.getUser.name === "tendani";
 
                     if (checkName) {
                         localStorage["adminToken"] = token;
@@ -76,27 +77,22 @@ document.addEventListener("alpine:init", () => {
             },
 
             // user signup
-            getSignup: {
-                name: "",
-                email: "",
-                password: ""
-            },
             signup() {
                 const signupUrl = "https://api-for-shoes.onrender.com/api/user/signup";
-                return axios.post(signupUrl, this.getSignup).then(result => {
+                return axios.post(signupUrl, this.getUser).then(result => {
 
                     // get the error
                     const { error } = result.data;
                     if (error) {
-                        signupErrorMsg.innerHTML = error;
-                        signupErrorMsg.classList.add("text-[#ff4a1c]");
+                        errorMsg.innerHTML = error;
+                        errorMsg.classList.add("text-[#ff4a1c]");
                         // Set the values in the signup input areas to default
-                        this.getSignup.name = "";
-                        this.getSignup.email = "";
-                        this.getSignup.password = "";
+                        this.getUser.name = "";
+                        this.getUser.email = "";
+                        this.getUser.password = "";
 
                         setTimeout(() => {
-                            signupErrorMsg.innerHTML = "";
+                            errorMsg.innerHTML = "";
                         }, 3000);
 
                         return;
@@ -136,6 +132,15 @@ document.addEventListener("alpine:init", () => {
                });
             },
             addShoeToCart(shoeId) {
+                if (!this.headers["auth-token"]) {
+                    errorMsg.innerHTML = "Log in please";
+                    errorMsg.classList.add("text-[#ff4a1c]");
+
+                    setTimeout(() => {
+                        errorMsg.innerHTML = "";
+                    }, 3000);
+                };
+
                 this.addShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {

@@ -13,6 +13,22 @@
     </head>
 
     <body x-data="catalog">
+        <span>
+            <a href="index.html">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-arrow-left-circle-fill fill-[#fa6300]"
+                viewBox="0 0 16 16"
+                >
+                <path
+                  d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
+                />
+                </svg>
+            </a>
+        </span>
         <div class="flex justify-center items-center">
             <div class="py-20">
                 <div class="heading">
@@ -28,7 +44,7 @@
                             <label name="name" for="name"><strong>Username</strong></label>
                             <div>
                                 <input
-                                x-model="getLogin.name"
+                                x-model="getUser.name"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
                                 name="name"
                                 type="text"
@@ -41,7 +57,7 @@
                             <label name="email" for="email"><strong>Email</strong></label>
                             <div>
                                 <input
-                                x-model="getLogin.email"
+                                x-model="getUser.email"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
                                 name="email"
                                 type="email"
@@ -54,7 +70,7 @@
                             <label for="password"><strong>Password</strong></label>
                             <div class="relative">
                                 <input
-                                x-model="getLogin.password"
+                                x-model="getUser.password"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2"
                                 name="password"
                                 type="password"
@@ -66,10 +82,13 @@
                         </div>
                 
                         <div class="py-4">
-                            <button class="loginBtn bg-[#ffa470] hover:bg-[#DB814D] w-1/2 rounded-full" type="submit"><strong>Login</strong></button>
+                            <div class="flex justify-center items-center">
+                                <button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] w-1/2 rounded-full" type="submit"><strong>Login</strong></button>
+                            </div>
+
                             <div class="py-2">
                                 <span class="text-[#242424]"><strong>Not registered?</strong></span>
-                                <a class="text-[#DB814D]" href="signup.html">Register here</a>
+                                <a class="text-[#fb953e]" href="signup.html">Register here</a>
                             </div>
                         </div>
                     </form>
