@@ -145,6 +145,7 @@ document.addEventListener("alpine:init", () => {
                         const response = result.data;
                         if(response.status === "success") {
                             this.showCart();
+                            location.reload();
                         };
                     })
             },
@@ -153,6 +154,7 @@ document.addEventListener("alpine:init", () => {
                         const response = result.data;
                         if(response.status === "success") {
                             this.showCart();
+                            location.reload();
                         };
                     })
             },
@@ -167,8 +169,11 @@ document.addEventListener("alpine:init", () => {
                     this.total = cartTotal;
                 })
             },
-
+            
             // Payment
+
+            proceed: false,
+    
             pay() {
                 const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
                 return axios.post(paymentUrl, { payment: this.cartPay }, {
@@ -176,33 +181,35 @@ document.addEventListener("alpine:init", () => {
                 });
             },
             paymentForCart() {
-                this.pay().then(result => {
-                    // get the error
-                    const { error } = result.data;
-                    if (error) {
-                        paymentMsg.innerHTML = error;
-                        paymentMsg.classList.add("text-[#ff4a1c]");
-
-                        setTimeout(() => {
-                            paymentMsg.innerHTML = "";
-                        }, 3000);
-
-                        return;
-                    };
-                    
-                    const response = result.data;
-                    if (response.status === "success") {
-                        paymentMsg.innerHTML = "Payment successful.";
-                        paymentMsg.classList.add("text-[#1ed760]");
-                        // Set the total to zero
-                        this.total = 0.00
-
-                        setTimeout(() => {
-                            paymentMsg.innerHTML = "";
-                            location.reload();
-                        }, 3000);
-                    };
-                });
+                if (this.proceed) {
+                    this.pay().then(result => {
+                        // get the error
+                        const { error } = result.data;
+                        if (error) {
+                            paymentMsg.innerHTML = error;
+                            paymentMsg.classList.add("text-[#ff4a1c]");
+    
+                            setTimeout(() => {
+                                paymentMsg.innerHTML = "";
+                            }, 3000);
+    
+                            return;
+                        };
+                        
+                        const response = result.data;
+                        if (response.status === "success") {
+                            paymentMsg.innerHTML = "Payment successful.";
+                            paymentMsg.classList.add("text-[#1ed760]");
+                            // Set the total to zero
+                            this.total = 0.00
+    
+                            setTimeout(() => {
+                                paymentMsg.innerHTML = "";
+                                location.reload();
+                            }, 3000);
+                        };
+                    });
+                };
             },
 
             // Remove a shoe in the cart
@@ -217,6 +224,7 @@ document.addEventListener("alpine:init", () => {
                     const response = result.data;
                     if(response.status === "success") {
                         this.showCart();
+                        location.reload();
                     };
                 })
             },
@@ -240,10 +248,32 @@ document.addEventListener("alpine:init", () => {
                 this.makeAShoe().then(result => {
                     const response = result.data;
                     if (response.status === "success") {
-                        this.showCart();
                         location.reload();
                     };
                 });
+            },
+
+            increaseShoeQty(shoeId) {
+                if (this.proceed) {
+                    const increaseShoeQtyUrl = `https://api-for-shoes.onrender.com/api/shoes/shoeId/${shoeId}/add`;
+                    return axios.post(increaseShoeQtyUrl).then(result => {
+                        const response = result.data;
+                        if (response.status === "success") {
+                            location.reload();
+                        };
+                    });
+                };
+            },
+            removeShoeInDispay(shoeId) {
+                if (this.proceed) {
+                    const increaseShoeQtyUrl = `https://api-for-shoes.onrender.com/api/shoes/shoeId/${shoeId}/remove`;
+                    return axios.post(increaseShoeQtyUrl).then(result => {
+                        const response = result.data;
+                        if (response.status === "success") {
+                            location.reload();
+                        };
+                    });
+                };
             },
 
             init() {
