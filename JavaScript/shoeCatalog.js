@@ -112,6 +112,18 @@ document.addEventListener("alpine:init", () => {
                 window.location.href = "index.html";
             },
 
+            // Shoes display functionality
+            getShoes() {
+                const shoesUrl = "https://api-for-shoes.onrender.com/api/shoes";
+                return axios.get(shoesUrl);
+            },
+            showShoes() {
+                this.getShoes().then(result => {
+                    const shoes = result.data.data;
+                    this.shoes = shoes;
+                });
+            },
+
             // Cart functionality
             getCart() {
                 const cartUrl = "https://api-for-shoes.onrender.com/api/cart";
@@ -144,8 +156,8 @@ document.addEventListener("alpine:init", () => {
                 this.addShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {
+                            this.showShoes();
                             this.showCart();
-                            location.reload();
                         };
                     })
             },
@@ -153,8 +165,8 @@ document.addEventListener("alpine:init", () => {
                 this.decrementShoe(shoeId).then(result => {
                         const response = result.data;
                         if(response.status === "success") {
+                            this.showShoes();
                             this.showCart();
-                            location.reload();
                         };
                     })
             },
@@ -195,6 +207,9 @@ document.addEventListener("alpine:init", () => {
     
                             return;
                         };
+
+                        // Store the shoes added to the cart in localStorage
+                            // store the time of the transation, shoe name
                         
                         const response = result.data;
                         if (response.status === "success") {
@@ -205,7 +220,6 @@ document.addEventListener("alpine:init", () => {
     
                             setTimeout(() => {
                                 paymentMsg.innerHTML = "";
-                                location.reload();
                             }, 3000);
                         };
                     });
@@ -223,8 +237,7 @@ document.addEventListener("alpine:init", () => {
                 this.removeShoe(shoeId).then(result => {
                     const response = result.data;
                     if(response.status === "success") {
-                        this.showCart();
-                        location.reload();
+                        this.showShoes();
                     };
                 })
             },
@@ -248,7 +261,7 @@ document.addEventListener("alpine:init", () => {
                 this.makeAShoe().then(result => {
                     const response = result.data;
                     if (response.status === "success") {
-                        location.reload();
+                        this.showShoes();
                     };
                 });
             },
@@ -259,7 +272,7 @@ document.addEventListener("alpine:init", () => {
                     return axios.post(increaseShoeQtyUrl).then(result => {
                         const response = result.data;
                         if (response.status === "success") {
-                            location.reload();
+                            this.showShoes();
                         };
                     });
                 };
@@ -270,16 +283,18 @@ document.addEventListener("alpine:init", () => {
                     return axios.post(increaseShoeQtyUrl).then(result => {
                         const response = result.data;
                         if (response.status === "success") {
-                            location.reload();
+                            this.showShoes();
                         };
                     });
                 };
             },
 
+            // create a function to retrieve the purchases of shoes in localStorage then...
+                // return the shoes from the localStorage
+
             init() {
-                axios
-                    .get("https://api-for-shoes.onrender.com/api/shoes")
-                    .then(result => this.shoes = result.data.data)
+                // SHOW shoes
+                this.showShoes();
 
                 // SHOW the cart
                 this.showCart();

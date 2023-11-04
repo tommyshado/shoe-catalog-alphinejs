@@ -16,13 +16,13 @@
       
       <!-- navbar section -->
       <nav class="bg-[#f6f6f6] py-4 flex justify-between items-center">
-        <h1><strong>Shesha footwear store</strong></h1>
+        <h1 class="text-3xl lg:text-4xl"><strong>Shesha footwear store</strong></h1>
 
         <ul class="flex space-x-4">
-          <li><a x-show="!loggedIn" href="login.html">Login</a></li>
-          <li><a x-show="!loggedIn" href="signup.html">Signup</a></li>
+          <li><a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="login.html">Login</a></li>
+          <li><a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="signup.html">Signup</a></li>
           <li style="margin-right: 2rem;">
-            <button x-show="loggedIn" @click="logout()">
+            <button class="text-1xl lg:text-2xl" x-show="loggedIn" @click="logout()">
               logout
             </button>
           </li>
@@ -39,7 +39,7 @@
         <h2 class="flex justify-center items-center"><strong>Your Cart</strong></h2>
 
         <div class="flex justify-center items-center">
-          <div class="cart">
+          <div class="cartSection">
             <table class="table-auto">
               <tr>
                 <th>Product</th>
@@ -97,26 +97,58 @@
                     </td>
                   </tr>
               </template>
+
             </table>
-  
-            <!-- cart total -->
-            <strong><span>Total </span></strong><label x-text="'R ' + total"></label><span></span>
-      
-            <!-- payment section -->
-            <div>
-              <strong><span>Payment here: </span></strong><input x-model="cartPay" name="payment" type="number">
-              <strong>
-                <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit" @click="paymentForCart()">
-                  pay
-                </button>
-              </strong>
-            </div>
+
           </div>
+
+          <!-- payment section -->
+          <div class="paymentSection">
+            <!-- cart total -->
+            <strong><span>Total </span></strong><label x-text="'R ' + total"></label><br>
+
+            <strong>
+              <span>Payment here: </span>
+            </strong>
+            <input x-model="cartPay" name="payment" type="number"><br>
+
+            <strong>
+              <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit" @click="paymentForCart()">
+                pay
+              </button>
+            </strong>
+          </div>
+
         </div>
       </div>
 
-      <!-- creating a shoe section -->
+      <!-- creating a shoe and purchases history sections -->
       <div class="flex justify-center items-center" x-show="createShoe">
+
+        <!-- loop over the length of the shoes purchases from localStorage then... -->
+        <div class="shoePurchases">
+          <table>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Date</th>
+              <th>Sub total</th>
+            </tr>
+
+            <!-- display the shoes -->
+            <tr>
+              <td>Air Jordan 1</td>
+              <td>2</td>
+              <td>Nov 3 2023</td>
+              <td>R 2500</td>
+            </tr>
+            
+            <span>Total: </span>
+            <span>R 2500</span>
+          </table>
+
+        </div>
+  
         <div class="shoeForm">
           <label for="shoeName">
             <strong>
@@ -264,7 +296,7 @@
                 <li><button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="createShoe" @click="removeShoeInDispay(shoe.shoe_id)"><strong>Remove-</strong></button></li>
               </span>
             </ul>
-          </template>
+        </template>
       </div>
 
     </body>
