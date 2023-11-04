@@ -207,9 +207,6 @@ document.addEventListener("alpine:init", () => {
     
                             return;
                         };
-
-                        // Store the shoes added to the cart in localStorage
-                            // store the time of the transation, shoe name
                         
                         const response = result.data;
                         if (response.status === "success") {
@@ -238,6 +235,7 @@ document.addEventListener("alpine:init", () => {
                     const response = result.data;
                     if(response.status === "success") {
                         this.showShoes();
+                        this.showCart();
                     };
                 })
             },
@@ -288,9 +286,6 @@ document.addEventListener("alpine:init", () => {
                     });
                 };
             },
-
-            // create a function to retrieve the purchases of shoes in localStorage then...
-                // return the shoes from the localStorage
 
             init() {
                 // SHOW shoes

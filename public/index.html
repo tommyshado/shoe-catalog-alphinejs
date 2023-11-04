@@ -16,13 +16,13 @@
       
       <!-- navbar section -->
       <nav class="bg-[#f6f6f6] py-4 flex justify-between items-center">
-        <h1 class="text-3xl lg:text-4xl"><strong>Shesha footwear store</strong></h1>
+        <h1 class="text-3xl lg:text-4xl font-bold" style="margin-left: 1rem;"><strong>Shesha footwear store</strong></h1>
 
         <ul class="flex space-x-4">
-          <li><a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="login.html">Login</a></li>
+          <li><a class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="!loggedIn" href="login.html">Login</a></li>
           <li><a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="signup.html">Signup</a></li>
           <li style="margin-right: 2rem;">
-            <button class="text-1xl lg:text-2xl" x-show="loggedIn" @click="logout()">
+            <button class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="loggedIn" @click="logout()">
               logout
             </button>
           </li>
@@ -30,30 +30,32 @@
       </nav>
   
       <!-- message section -->
-      <div class="errorMsg flex justify-center items-center"></div>
-      <div class="payment flex justify-center items-center"></div>
+      <div class="bg-[#f6f6f6]">
+        <div class="errorMsg flex justify-center items-center text-2xl font-bold"></div>
+        <div class="payment flex justify-center items-center text-2xl font-bold"></div>
+      </div>
     
       <!-- shopping cart section -->
       <div class="bg-[#f6f6f6]" x-show="total > 0 && !createShoe">
 
-        <h2 class="flex justify-center items-center"><strong>Your Cart</strong></h2>
+        <h2 class="flex justify-center items-center text-2xl lg:text-3xl font-bold py-10"><strong>Shopping Cart</strong></h2>
 
-        <div class="flex justify-center items-center">
-          <div class="cartSection">
-            <table class="table-auto">
+        <div class="flex flex-wrap justify-center items-center">
+          <div class="cartSection px-10">
+            <table class="table-auto border-collapse">
               <tr>
-                <th>Product</th>
-                <th>Increase</th>
-                <th>Decrease</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-                <th>Remove</th>
+                <th class="px-3 py-2">Product</th>
+                <th class="px-3 py-2">Increase</th>
+                <th class="px-3 py-2">Decrease</th>
+                <th class="px-3 py-2">Quantity</th>
+                <th class="px-3 py-2">Subtotal</th>
+                <th class="px-3 py-2">Remove</th>
               </tr>
               
               <template x-for="shoe in cart">
                 <tr>
-                    <td x-text="shoe.description"></td>
-                    <td>
+                    <td class="px-3 py-2" x-text="shoe.description"></td>
+                    <td class="px-3 py-2">
                         <button @click="addShoeToCart(shoe.shoe_id)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +72,7 @@
                           </svg>
                         </button>
                     </td>
-                    <td>
+                    <td class="px-3 py-2">
                         <button @click="decrementShoeQty(shoe.shoe_id)">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +88,9 @@
                           </svg>
                         </button>
                     </td>
-                    <td x-text="shoe.quantity"></td>
-                    <td x-text="'R' + ' ' + shoe.total"></td>
-                    <td>
+                    <td class="px-3 py-2" x-text="shoe.quantity"></td>
+                    <td class="px-3 py-2" x-text="'R' + ' ' + shoe.total"></td>
+                    <td class="px-3 py-2">
                       <button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                           <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -103,57 +105,39 @@
           </div>
 
           <!-- payment section -->
-          <div class="paymentSection">
+          <div class="paymentSection px-10">
             <!-- cart total -->
-            <strong><span>Total </span></strong><label x-text="'R ' + total"></label><br>
+            <div>
+              <strong><span>Total: </span></strong><label class="px-60 text-xl text-orange-600 font-bold" x-text="'R ' + total"></label><br>
+            </div>
 
-            <strong>
-              <span>Payment here: </span>
-            </strong>
-            <input x-model="cartPay" name="payment" type="number"><br>
-
-            <strong>
-              <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit" @click="paymentForCart()">
-                pay
-              </button>
-            </strong>
+            <div>
+              <strong>
+                <span>Payment here: </span>
+              </strong>
+              <input x-model="cartPay" name="payment" type="number">
+  
+              <strong>
+                <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit" @click="paymentForCart()">
+                  pay
+                </button>
+              </strong>
+            </div>
           </div>
 
         </div>
       </div>
 
-      <!-- creating a shoe and purchases history sections -->
+      <!-- creating a shoe -->
       <div class="flex justify-center items-center" x-show="createShoe">
-
-        <!-- loop over the length of the shoes purchases from localStorage then... -->
-        <div class="shoePurchases">
-          <table>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Date</th>
-              <th>Sub total</th>
-            </tr>
-
-            <!-- display the shoes -->
-            <tr>
-              <td>Air Jordan 1</td>
-              <td>2</td>
-              <td>Nov 3 2023</td>
-              <td>R 2500</td>
-            </tr>
-            
-            <span>Total: </span>
-            <span>R 2500</span>
-          </table>
-
-        </div>
   
-        <div class="shoeForm">
+        <div class="shoeForm px-10">
           <label for="shoeName">
-            <strong>
-              Add a shoe to the catalog
-            </strong>
+            <h2>
+                <strong>
+                  Add a shoe to the catalog
+                </strong>
+              </h2>
           </label>
     
           <div>
@@ -281,22 +265,33 @@
     
       </div>
 
-      <!-- shoes section -->
-      <div class="shoe justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <template x-for="shoe in shoes">
-            <ul style="margin-left: 2rem;" class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center">
-              <li><img x-bind:src="shoe.image" alt="shoe" srcset=""></li>
-              <strong><li x-text="'Brand: ' + shoe.shoe_name"></li></strong>
-              <strong><li x-text="'Description: ' + shoe.description"></li></strong>
-              <li x-text="'Quantity: ' + shoe.shoe_qty"></li>
-              <li x-text="'R ' + shoe.shoe_price"></li>
-              <li class="flex justify-center items-center"><button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="!createShoe" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button></li>
-              <span class="flex justify-center items-center">
-                <li><button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" style="margin-right: 1rem;" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="createShoe" @click="increaseShoeQty(shoe.shoe_id)"><strong>Add Qty+</strong></button></li>
-                <li><button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="createShoe" @click="removeShoeInDispay(shoe.shoe_id)"><strong>Remove-</strong></button></li>
-              </span>
-            </ul>
-        </template>
+      <div class="flex py-10" style="overflow-x: hidden;">
+        <!-- filters section -->
+        <div class="filters w-1/4" style="margin-left: 1rem;">
+          <h2 class="text-2xl font-bold">Filters</h2>
+  
+        </div>
+        
+        <!-- shoes section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <template x-for="shoe in shoes">
+            <div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center" style="margin-left: 2rem;">
+              <img x-bind:src="shoe.image" alt="shoe" class="w-full h-auto">
+              <strong class="block mt-2 text-xl font-semibold text-gray-900"><span x-text="shoe.shoe_name"></span></strong>
+              <strong class="mt-2 text-gray-800"><span x-text="shoe.description"></span></strong>
+              <p class="text-gray-700">Quantity: <span x-text="shoe.shoe_qty"></span></p>
+              <p class="text-xl text-orange-600 font-bold">R <span x-text="shoe.shoe_price"></span></p>
+              <div class="flex justify-center items-center mt-4">
+                <button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="!createShoe" @click="addShoeToCart(shoe.shoe_id)"><strong>Quick Add+</strong></button>
+                <div class="flex">
+                  <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')" class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="createShoe" @click="increaseShoeQty(shoe.shoe_id)"><strong>Add Qty+</strong></button>
+                  <button x-on:click="proceed = confirm('Press OK to remove a shoe from display or CANCEL to abort.')" class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-2 px-4 rounded-full" x-show="createShoe" @click="removeShoeInDisplay(shoe.shoe_id)"><strong>Remove-</strong></button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+
       </div>
 
     </body>
