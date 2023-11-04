@@ -129,7 +129,34 @@
       </div>
 
       <!-- creating a shoe -->
-      <div class="flex justify-center items-center" x-show="createShoe">
+      <div class="flex flex-wrap justify-center items-center" x-show="createShoe">
+
+        <!-- loop over the length of the shoes purchases from localStorage then... -->
+        <div class="shoePurchases px-10">
+          <h2>
+            <strong>
+              Purchase History:
+            </strong>
+          </h2>
+
+          <table>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+
+            <!-- display the shoes -->
+            <template x-for="purchase in purchaseHistory">
+              <tr>
+                <td x-text="purchase.description"></td>
+                <td x-text="purchase.quantity"></td>
+                <td x-text="'R' + ' ' + purchase.total"></td>
+              </tr>
+            </template>
+          </table>
+
+        </div>
   
         <div class="shoeForm px-10">
           <label for="shoeName">

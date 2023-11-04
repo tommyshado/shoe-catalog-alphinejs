@@ -185,6 +185,7 @@ document.addEventListener("alpine:init", () => {
             // Payment
 
             proceed: false,
+            purchaseHistory: JSON.parse(localStorage.getItem('purchaseHistory')) || [],
     
             pay() {
                 const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
@@ -212,8 +213,16 @@ document.addEventListener("alpine:init", () => {
                         if (response.status === "success") {
                             paymentMsg.innerHTML = "Payment successful.";
                             paymentMsg.classList.add("text-[#1ed760]");
+
+                            // Payment successful, add items to purchase history
+                            this.purchaseHistory.push(...this.cart);
+                            // Clear the cart
+                            this.cart = [];
                             // Set the total to zero
                             this.total = 0.00
+
+                            // Store the updated purchaseHistory in localStorage
+                            localStorage.setItem('purchaseHistory', JSON.stringify(this.purchaseHistory));
     
                             setTimeout(() => {
                                 paymentMsg.innerHTML = "";
