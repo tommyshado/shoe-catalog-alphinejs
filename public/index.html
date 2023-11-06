@@ -51,34 +51,34 @@
         <table class="table-auto border-collapse">
           <tr>
             <th class="px-3 py-2">Product</th>
-            <th class="px-3 py-2">Increase</th>
-            <th class="px-3 py-2">Decrease</th>
             <th class="px-3 py-2">Quantity</th>
-            <th class="px-3 py-2">Subtotal</th>
-            <th class="px-3 py-2">Remove</th>
           </tr>
 
           <template x-for="shoe in cart">
             <tr>
               <td class="px-3 py-2" x-text="shoe.description"></td>
               <td class="px-3 py-2">
-                <button @click="addShoeToCart(shoe.shoe_id)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                    class="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-                  </svg>
-                </button>
+                <ul class="flex">
+                  <li class="px-2">
+                    <button @click="decrementShoeQty(shoe.shoe_id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-dash"
+                      viewBox="0 0 16 16">
+                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                    </svg>
+                  </button>
+                  </li>
+                  <li class="border-2 border-black px-2" x-text="shoe.quantity"></li>
+                  <li class="px-2">
+                    <button @click="addShoeToCart(shoe.shoe_id)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                      </svg>
+                    </button>
+                  </li>
+                </ul>
               </td>
-              <td class="px-3 py-2">
-                <button @click="decrementShoeQty(shoe.shoe_id)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-dash"
-                    viewBox="0 0 16 16">
-                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                  </svg>
-                </button>
-              </td>
-              <td class="px-3 py-2" x-text="shoe.quantity"></td>
               <td class="px-3 py-2" x-text="'R' + ' ' + shoe.total"></td>
               <td class="px-3 py-2">
                 <button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
@@ -95,10 +95,15 @@
       </div>
 
       <!-- payment section -->
-      <div class="paymentSection px-10">
+      <div class="paymentSection px-10 border-2 border-black bg-[#DADADA]">
+        <h2>
+          <strong>
+            Order Summary
+          </strong>
+        </h2>
         <!-- cart total -->
         <div>
-          <strong><span>Total: </span></strong><label class="px-60 text-xl text-orange-600 font-bold"
+          <strong><span>Total: </span></strong><label class="px-40 text-xl text-orange-600 font-bold"
             x-text="'R ' + total"></label><br />
         </div>
 
@@ -106,15 +111,17 @@
           <strong>
             <span>Payment here: </span>
           </strong>
-          <input x-model="cartPay" name="payment" type="number" />
+          <input class="border-2 border-black" x-model="cartPay" name="payment" type="number" /><br>
 
-          <strong>
-            <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
-              class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit"
-              @click="paymentForCart()">
-              pay
-            </button>
-          </strong>
+          <div class="flex justify-center items-center py-2">
+            <strong>
+              <button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
+                class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] px-10 rounded-full" type="submit"
+                @click="paymentForCart()">
+                pay
+              </button>
+            </strong>
+          </div>
         </div>
       </div>
     </div>
@@ -232,7 +239,7 @@
     <div class="filters w-1/4" style="margin-left: 1rem">
       <h2 class="text-2xl font-bold">Filters</h2>
 
-      <div class="text-xl font-semibold text-gray-900 py-2">
+      <div class="text-xl font-semibold text-gray-900 px-4 py-2">
         <div class="brand">
           <h3>
             <strong>Brands</strong>
@@ -241,23 +248,23 @@
           <!-- Get brands from the value -->
           <div class="px-4 py-2">
             <label>
-              <input type="checkbox" x-model="checkboxes" value="adidas" />
+              <input type="checkbox" x-model="brandname" value="adidas" />
               adidas </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="nike" />
+              <input type="checkbox" x-model="brandname" value="nike" />
               nike </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="asics" />
+              <input type="checkbox" x-model="brandname" value="asics" />
               asics </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="converse" />
+              <input type="checkbox" x-model="brandname" value="converse" />
               converse </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="puma" /> puma
+              <input type="checkbox" x-model="brandname" value="puma" /> puma
             </label>
           </div>
         </div>
@@ -270,23 +277,23 @@
           <!-- Get color from the value -->
           <div class="px-4 py-2">
             <label>
-              <input type="checkbox" x-model="checkboxes" value="white" />
+              <input type="checkbox" x-model="color" value="white" />
               white </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="black" />
+              <input type="checkbox" x-model="color" value="black" />
               black </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="purple" />
+              <input type="checkbox" x-model="color" value="purple" />
               purple </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="brown" />
+              <input type="checkbox" x-model="color" value="brown" />
               brown </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="orange" />
+              <input type="checkbox" x-model="color" value="orange" />
               orange
             </label>
           </div>
@@ -300,27 +307,27 @@
           <!-- Get size from the value -->
           <div class="px-4 py-2">
             <label>
-              <input type="checkbox" x-model="checkboxes" value="4" />
+              <input type="checkbox" x-model="size" value="4" />
               4 </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="5" />
+              <input type="checkbox" x-model="size" value="5" />
               5 </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="6" />
+              <input type="checkbox" x-model="size" value="6" />
               6 </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="7" />
+              <input type="checkbox" x-model="size" value="7" />
               7 </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="8" />
+              <input type="checkbox" x-model="size" value="8" />
               8 </label><br />
 
             <label>
-              <input type="checkbox" x-model="checkboxes" value="9" /> 9
+              <input type="checkbox" x-model="size" value="9" /> 9
             </label>
           </div>
         </div>
