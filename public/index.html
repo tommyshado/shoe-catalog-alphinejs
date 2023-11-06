@@ -44,7 +44,7 @@
   </div>
 
   <!-- shopping cart section -->
-  <div class="bg-[#f6f6f6]" x-show="total > 0 && !createShoe" x-cloak>
+  <div class="bg-[#f6f6f6] py-4" x-show="total > 0 && !createShoe" x-cloak>
     <h2 class="flex justify-center items-center text-2xl lg:text-3xl font-bold py-10">
       <strong>Shopping Cart</strong>
     </h2>
@@ -99,13 +99,13 @@
 
       <!-- payment section -->
       <div class="paymentSection px-10 border-2 border-black bg-[#DADADA]">
-        <h2>
+        <h2 class="border-b-4 border-black ">
           <strong>
             Order Summary
           </strong>
         </h2>
         <!-- cart total -->
-        <div>
+        <div class="py-2">
           <strong><span>Total: </span></strong><label class="px-40 text-xl text-orange-600 font-bold"
             x-text="'R ' + total"></label><br />
         </div>
@@ -131,7 +131,7 @@
   </div>
 
   <!-- creating a shoe -->
-  <div class="flex flex-wrap justify-center items-center" x-show="createShoe" x-cloak>
+  <div class="flex flex-wrap justify-center items-center py-4" x-show="createShoe" x-cloak>
     <!-- loop over the length of the shoes purchases from localStorage then... -->
     <div class="shoePurchases px-10 border-2 border-black bg-[#f6f6f6]" x-show="purchaseHistory.length > 0">
       <h2 class="py-2 border-b-4 border-black">
@@ -337,7 +337,7 @@
     <!-- shoes section -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <template x-for="shoe in shoes">
-        <div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center"
+        <div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center pl-4"
           style="margin-left: 2rem">
           <img x-bind:src="shoe.image" alt="shoe" class="w-full h-auto" />
           <strong class="block mt-2 text-xl font-semibold text-gray-900"><span x-text="shoe.shoe_name"></span></strong>
