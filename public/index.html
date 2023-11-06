@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
 
+  <!-- css -->
+  <link rel="stylesheet" href="../stylesheets/style.css">
+
   <!-- cdn script tags -->
   <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -41,7 +44,7 @@
   </div>
 
   <!-- shopping cart section -->
-  <div class="bg-[#f6f6f6]" x-show="total > 0 && !createShoe">
+  <div class="bg-[#f6f6f6]" x-show="total > 0 && !createShoe" x-cloak>
     <h2 class="flex justify-center items-center text-2xl lg:text-3xl font-bold py-10">
       <strong>Shopping Cart</strong>
     </h2>
@@ -128,7 +131,7 @@
   </div>
 
   <!-- creating a shoe -->
-  <div class="flex flex-wrap justify-center items-center" x-show="createShoe">
+  <div class="flex flex-wrap justify-center items-center" x-show="createShoe" x-cloak>
     <!-- loop over the length of the shoes purchases from localStorage then... -->
     <div class="shoePurchases px-10 border-2 border-black bg-[#f6f6f6]" x-show="purchaseHistory.length > 0">
       <h2 class="py-2 border-b-4 border-black">
