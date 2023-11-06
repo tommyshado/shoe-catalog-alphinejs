@@ -58,7 +58,7 @@ document.addEventListener("alpine:init", () => {
                     };
 
                     const token = result.data.token;
-                    const checkName = this.getUser.name === "tendani";
+                    const checkName = this.getUser.name === "tendani"; // compare role if it equal to 'admin'
 
                     if (checkName) {
                         localStorage["adminToken"] = token;
@@ -294,6 +294,47 @@ document.addEventListener("alpine:init", () => {
                         };
                     });
                 };
+            },
+
+            // Filtering functionality
+
+
+            // Checkboxes value
+            brandname: "",
+            color: "",
+            size: "",
+
+            filterByBrand() {
+                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.brandname}`;
+                return axios.get(filterUrl);
+            },
+            filteredByBrand() {
+                this.filterByBrand().then(result => {
+                    const response = result.data.data;
+                    this.shoes = response;
+                })
+            },
+
+            filterByColor() {
+                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.color}`;
+                return axios.get(filterUrl);
+            },
+            filteredByColor() {
+                this.filterByColor().then(result => {
+                    const response = result.data.data;
+                    this.shoes = response;
+                })
+            },
+
+            filterBySize() {
+                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.size}`;
+                return axios.get(filterUrl);
+            },
+            filteredBySize() {
+                this.filterBySize().then(result => {
+                    const response = result.data.data;
+                    this.shoes = response;
+                })
             },
 
             init() {

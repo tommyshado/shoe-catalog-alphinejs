@@ -48,18 +48,18 @@
 
     <div class="flex flex-wrap justify-center items-center">
       <div class="cartSection px-10">
-        <table class="table-auto border-collapse">
-          <tr>
+        <table class="table-auto border-collapse border-4">
+          <tr class="border-b-4">
             <th class="px-3 py-2">Product</th>
             <th class="px-3 py-2">Quantity</th>
           </tr>
 
           <template x-for="shoe in cart">
-            <tr>
+            <tr class="border-b-4">
               <td class="px-3 py-2" x-text="shoe.description"></td>
               <td class="px-3 py-2">
                 <ul class="flex">
-                  <li class="px-2">
+                  <li class="px-2 py-2">
                     <button @click="decrementShoeQty(shoe.shoe_id)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-dash"
                       viewBox="0 0 16 16">
@@ -67,8 +67,8 @@
                     </svg>
                   </button>
                   </li>
-                  <li class="border-2 border-black px-2" x-text="shoe.quantity"></li>
-                  <li class="px-2">
+                  <li class="border-2 border-black px-2 py-2" x-text="shoe.quantity"></li>
+                  <li class="px-2 py-2">
                     <button @click="addShoeToCart(shoe.shoe_id)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                         class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -239,7 +239,7 @@
     <div class="filters w-1/4" style="margin-left: 1rem">
       <h2 class="text-2xl font-bold">Filters</h2>
 
-      <div class="text-xl font-semibold text-gray-900 px-4 py-2">
+      <div class="text-xl font-semibold text-gray-900 px-4 py-2 border-b-4 border-r-4">
         <div class="brand">
           <h3>
             <strong>Brands</strong>
@@ -247,25 +247,26 @@
 
           <!-- Get brands from the value -->
           <div class="px-4 py-2">
-            <label>
-              <input type="checkbox" x-model="brandname" value="adidas" />
-              adidas </label><br />
+            <select x-model="brandname">
+              <option>Select brand</option>
+              <option>adidas</option>
+              <option>nike</option>
+              <option>puma</option>
+              <option>asics</option>
+              <option>air jordan</option>
+              <option>converse</option>
+              <option>crocs</option>
+              <option>Birkenstock</option>
+              <option>clarks</option>
+              <option>vans</option>
+              <option>reebok</option>
+            </select>
 
-            <label>
-              <input type="checkbox" x-model="brandname" value="nike" />
-              nike </label><br />
-
-            <label>
-              <input type="checkbox" x-model="brandname" value="asics" />
-              asics </label><br />
-
-            <label>
-              <input type="checkbox" x-model="brandname" value="converse" />
-              converse </label><br />
-
-            <label>
-              <input type="checkbox" x-model="brandname" value="puma" /> puma
-            </label>
+            <div>
+              <button class="text-[#fa6300]" @click="filteredByBrand()">
+                Filter by brand
+              </button>
+            </div>
           </div>
         </div>
 
@@ -276,26 +277,19 @@
 
           <!-- Get color from the value -->
           <div class="px-4 py-2">
-            <label>
-              <input type="checkbox" x-model="color" value="white" />
-              white </label><br />
-
-            <label>
-              <input type="checkbox" x-model="color" value="black" />
-              black </label><br />
-
-            <label>
-              <input type="checkbox" x-model="color" value="purple" />
-              purple </label><br />
-
-            <label>
-              <input type="checkbox" x-model="color" value="brown" />
-              brown </label><br />
-
-            <label>
-              <input type="checkbox" x-model="color" value="orange" />
-              orange
-            </label>
+            <select x-model="color">
+              <option>Select color</option>
+              <option>white</option>
+              <option>black</option>
+              <option>purple</option>
+              <option>brown</option>
+              <option>orange</option>
+            </select>
+            <div>
+              <button class="text-[#fa6300]" @click="filteredByColor()">
+                Filter by color
+              </button>
+            </div>
           </div>
         </div>
 
@@ -306,30 +300,28 @@
 
           <!-- Get size from the value -->
           <div class="px-4 py-2">
-            <label>
-              <input type="checkbox" x-model="size" value="4" />
-              4 </label><br />
-
-            <label>
-              <input type="checkbox" x-model="size" value="5" />
-              5 </label><br />
-
-            <label>
-              <input type="checkbox" x-model="size" value="6" />
-              6 </label><br />
-
-            <label>
-              <input type="checkbox" x-model="size" value="7" />
-              7 </label><br />
-
-            <label>
-              <input type="checkbox" x-model="size" value="8" />
-              8 </label><br />
-
-            <label>
-              <input type="checkbox" x-model="size" value="9" /> 9
-            </label>
+            <select x-model="size">
+              <option>Select size</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+            </select>
+            <div>
+              <button class="text-[#fa6300]" @click="filteredBySize()">
+                Filter by size
+              </button>
+            </div>
           </div>
+        </div>
+
+        <!-- button to show all the shoes -->
+        <div class="showAllShoes">
+          <button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-2 px-4 rounded-full" @click="showShoes()">
+            Show All
+          </button>
         </div>
       </div>
     </div>
