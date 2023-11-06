@@ -249,6 +249,11 @@ document.addEventListener("alpine:init", () => {
                 })
             },
 
+            clear() {
+                localStorage["purchaseHistory"] = JSON.stringify([]);
+                location.reload();
+            },
+
             // Make a shoe to display in the catalog
             shoe: {
                 shoeName: "",
