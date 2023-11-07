@@ -181,6 +181,16 @@ document.addEventListener("alpine:init", () => {
                     this.total = cartTotal;
                 })
             },
+
+            setMessage() {
+                alert(JSON.stringify(this.cart));
+                errorMsg.innerHTML = "Product out of stock";
+                errorMsg.classList.add("text-[#ff4a1c]");
+
+                setTimeout(() => {
+                    errorMsg.innerHTML = "";
+                }, 3000);
+            },
             
             // Payment
             proceed: false,
