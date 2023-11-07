@@ -183,7 +183,6 @@ document.addEventListener("alpine:init", () => {
             },
 
             setMessage() {
-                alert(JSON.stringify(this.cart));
                 errorMsg.innerHTML = "Product out of stock";
                 errorMsg.classList.add("text-[#ff4a1c]");
 
