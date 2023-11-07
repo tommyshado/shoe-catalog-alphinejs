@@ -183,7 +183,6 @@ document.addEventListener("alpine:init", () => {
             },
             
             // Payment
-
             proceed: false,
             purchaseHistory: JSON.parse(localStorage.getItem('purchaseHistory')) || [],
     
@@ -250,8 +249,10 @@ document.addEventListener("alpine:init", () => {
             },
 
             clear() {
-                localStorage["purchaseHistory"] = JSON.stringify([]);
-                location.reload();
+                if (this.proceed) {
+                    localStorage["purchaseHistory"] = JSON.stringify([]);
+                    location.reload();
+                };
             },
 
             // Make a shoe to display in the catalog
@@ -302,41 +303,40 @@ document.addEventListener("alpine:init", () => {
             },
 
             // Filtering functionality
+            dropdownValues: {
+                brandname: "",
+                color: "",
+                size: "",
+            },
 
+            filter() {
+                // If truthy execute code
+                if (this.dropdownValues.brandname) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}`;
+                    return axios.get(filterUrl);
+                };
 
-            // Checkboxes value
-            brandname: "",
-            color: "",
-            size: "",
+                if (this.dropdownValues.color) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.dropdownValues.color}`;
+                    return axios.get(filterUrl);
+                };
 
-            filterByBrand() {
-                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.brandname}`;
+                if (this.dropdownValues.size) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.dropdownValues.size}`;
+                    return axios.get(filterUrl);
+                };
+
+                if (this.dropdownValues.brandname && this.dropdownValues.color) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}`;
+                    return axios.get(filterUrl);
+                };
+
+                // Otherwise, execute this code
+                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
                 return axios.get(filterUrl);
             },
-            filteredByBrand() {
-                this.filterByBrand().then(result => {
-                    const response = result.data.data;
-                    this.shoes = response;
-                })
-            },
-
-            filterByColor() {
-                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.color}`;
-                return axios.get(filterUrl);
-            },
-            filteredByColor() {
-                this.filterByColor().then(result => {
-                    const response = result.data.data;
-                    this.shoes = response;
-                })
-            },
-
-            filterBySize() {
-                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.size}`;
-                return axios.get(filterUrl);
-            },
-            filteredBySize() {
-                this.filterBySize().then(result => {
+            filtered() {
+                this.filter().then(result => {
                     const response = result.data.data;
                     this.shoes = response;
                 })
