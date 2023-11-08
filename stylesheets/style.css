@@ -1,3 +1,10 @@
+body {
+    font-family: 'Lugrasimo', cursive;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    text-transform: capitalize;
+}
+
 [x-cloak] { 
     display: none !important; 
 }
