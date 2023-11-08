@@ -320,6 +320,19 @@ document.addEventListener("alpine:init", () => {
 
             filter() {
                 // If truthy execute code
+                if (this.dropdownValues.brandname && this.dropdownValues.size) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/size/${this.dropdownValues.size}`;
+                    return axios.get(filterUrl);
+
+                };
+
+                if (this.dropdownValues.brandname && this.dropdownValues.color && this.dropdownValues.size) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
+                    return axios.get(filterUrl);
+
+                };
+
+                // Otherwise, execute this code
                 if (this.dropdownValues.brandname) {
                     const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}`;
                     return axios.get(filterUrl);
@@ -340,14 +353,21 @@ document.addEventListener("alpine:init", () => {
                     return axios.get(filterUrl);
                 };
 
-                // Otherwise, execute this code
-                const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
-                return axios.get(filterUrl);
             },
             filtered() {
                 this.filter().then(result => {
                     const response = result.data.data;
                     this.shoes = response;
+
+                    if (this.shoes.length === 0) {
+                        errorMsg.innerHTML = "Shoe not available";
+                        errorMsg.classList.add("text-[#ff4a1c]");
+
+                        setTimeout(() => {
+                            errorMsg.innerHTML = "";
+                            this.showShoes();
+                        }, 3000);
+                    };
                 })
             },
 
