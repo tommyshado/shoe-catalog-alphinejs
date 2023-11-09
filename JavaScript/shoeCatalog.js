@@ -153,13 +153,25 @@ document.addEventListener("alpine:init", () => {
                     }, 3000);
                 };
 
-                this.addShoe(shoeId).then(result => {
-                        const response = result.data;
-                        if(response.status === "success") {
-                            this.showShoes();
-                            this.showCart();
+                this.getShoes().then(result => {
+                    const response = result.data.data;
+
+                    for (const shoes in response) {
+                        const qty = response[shoes].shoe_qty;
+                        const checkId = response[shoes].shoe_id === shoeId;
+
+                        if (qty > 0 && checkId) {
+                            this.addShoe(shoeId).then(result => {
+                                const response = result.data;
+                                if(response.status === "success") {
+                                    this.showShoes();
+                                    this.showCart();
+                                };
+                            })
                         };
-                    })
+                    };
+                    
+                });
             },
             decrementShoeQty(shoeId) {
                 this.decrementShoe(shoeId).then(result => {
