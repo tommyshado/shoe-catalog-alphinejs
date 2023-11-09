@@ -7,7 +7,7 @@ document.addEventListener("alpine:init", () => {
         return {
             shoes: [],
             cart: [],
-            total: 0.00,
+            total: 0.0,
 
             // Add shoe
             createShoe: false,
@@ -16,19 +16,19 @@ document.addEventListener("alpine:init", () => {
             loggedIn: false,
 
             // payment
-            cartPay: 0.00,
+            cartPay: 0.0,
 
             // Headers
             headers: {
-                'Content-Type': 'application/json',
-                'auth-token':   localStorage["token"] || localStorage["adminToken"]
+                "Content-Type": "application/json",
+                "auth-token": localStorage["token"] || localStorage["adminToken"],
             },
 
             // User
             getUser: {
                 name: "",
                 email: "",
-                password: ""
+                password: "",
             },
 
             // user login
@@ -39,13 +39,14 @@ document.addEventListener("alpine:init", () => {
 
             // GET the token from the API
             getToken() {
-                this.login().then(result => {
+                this.login().then((result) => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
                         errorMsg.innerHTML = error;
                         errorMsg.classList.add("text-[#ff4a1c]");
-                        // Set the values in the signup input areas to default
+
+                        // Set the values in the login input areas to default
                         this.getUser.name = "";
                         this.getUser.email = "";
                         this.getUser.password = "";
@@ -55,10 +56,10 @@ document.addEventListener("alpine:init", () => {
                         }, 3000);
 
                         return;
-                    };
+                    }
 
                     const token = result.data.token;
-                    const checkName = this.getUser.name === "tendani"; // compare role if it equal to 'admin'
+                    const checkName = this.getUser.name === "tendani";
 
                     if (checkName) {
                         localStorage["adminToken"] = token;
@@ -67,25 +68,24 @@ document.addEventListener("alpine:init", () => {
                             window.location.href = "index.html";
                         } else {
                             window.location.href = "login.html";
-                        };
-
+                        }
                     } else if (!checkName) {
                         localStorage["token"] = token;
                         window.location.href = "index.html";
-                    };
+                    }
                 });
             },
 
             // user signup
             signup() {
                 const signupUrl = "https://api-for-shoes.onrender.com/api/user/signup";
-                return axios.post(signupUrl, this.getUser).then(result => {
-
+                return axios.post(signupUrl, this.getUser).then((result) => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
                         errorMsg.innerHTML = error;
                         errorMsg.classList.add("text-[#ff4a1c]");
+
                         // Set the values in the signup input areas to default
                         this.getUser.name = "";
                         this.getUser.email = "";
@@ -96,12 +96,12 @@ document.addEventListener("alpine:init", () => {
                         }, 3000);
 
                         return;
-                    };
+                    }
 
                     const response = result.data;
                     if (response.status === "success") {
                         window.location.href = "login.html";
-                    };
+                    }
                 });
             },
 
@@ -118,7 +118,7 @@ document.addEventListener("alpine:init", () => {
                 return axios.get(shoesUrl);
             },
             showShoes() {
-                this.getShoes().then(result => {
+                this.getShoes().then((result) => {
                     const shoes = result.data.data;
                     this.shoes = shoes;
                 });
@@ -128,20 +128,28 @@ document.addEventListener("alpine:init", () => {
             getCart() {
                 const cartUrl = "https://api-for-shoes.onrender.com/api/cart";
                 return axios.get(cartUrl, {
-                    headers: this.headers
+                    headers: this.headers,
                 });
             },
             addShoe(shoeId) {
-               const addUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/add`;
-               return axios.post(addUrl, {}, {
-                    headers: this.headers
-               });
+                const addUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/add`;
+                return axios.post(
+                    addUrl,
+                    {},
+                    {
+                        headers: this.headers,
+                    }
+                );
             },
             decrementShoe(shoeId) {
                 const decreaseQtyUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/remove`;
-                return axios.post(decreaseQtyUrl, {}, {
-                    headers: this.headers
-               });
+                return axios.post(
+                    decreaseQtyUrl,
+                    {},
+                    {
+                        headers: this.headers,
+                    }
+                );
             },
             addShoeToCart(shoeId) {
                 if (!this.headers["auth-token"]) {
@@ -151,9 +159,9 @@ document.addEventListener("alpine:init", () => {
                     setTimeout(() => {
                         errorMsg.innerHTML = "";
                     }, 3000);
-                };
+                }
 
-                this.getShoes().then(result => {
+                this.getShoes().then((result) => {
                     const response = result.data.data;
 
                     for (const shoes in response) {
@@ -161,29 +169,28 @@ document.addEventListener("alpine:init", () => {
                         const checkId = response[shoes].shoe_id === shoeId;
 
                         if (qty > 0 && checkId) {
-                            this.addShoe(shoeId).then(result => {
+                            this.addShoe(shoeId).then((result) => {
                                 const response = result.data;
-                                if(response.status === "success") {
+                                if (response.status === "success") {
                                     this.showShoes();
                                     this.showCart();
-                                };
-                            })
-                        };
-                    };
-                    
+                                }
+                            });
+                        }
+                    }
                 });
             },
             decrementShoeQty(shoeId) {
-                this.decrementShoe(shoeId).then(result => {
-                        const response = result.data;
-                        if(response.status === "success") {
-                            this.showShoes();
-                            this.showCart();
-                        };
-                    })
+                this.decrementShoe(shoeId).then((result) => {
+                    const response = result.data;
+                    if (response.status === "success") {
+                        this.showShoes();
+                        this.showCart();
+                    }
+                });
             },
             showCart() {
-                this.getCart().then(result => {
+                this.getCart().then((result) => {
                     // Cart data
                     const data = result.data;
                     const cartTotal = data.total;
@@ -191,7 +198,7 @@ document.addEventListener("alpine:init", () => {
                     // Set global variables
                     this.cart = data.cart;
                     this.total = cartTotal;
-                })
+                });
             },
 
             setMessage() {
@@ -202,33 +209,39 @@ document.addEventListener("alpine:init", () => {
                     errorMsg.innerHTML = "";
                 }, 3000);
             },
-            
+
             // Payment
             proceed: false,
-            purchaseHistory: JSON.parse(localStorage.getItem('purchaseHistory')) || [],
-    
+            purchaseHistory:
+                JSON.parse(localStorage.getItem("purchaseHistory")) || [],
+
             pay() {
-                const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
-                return axios.post(paymentUrl, { payment: this.cartPay }, {
-                    headers: this.headers
-                });
+                const paymentUrl =
+                    "https://api-for-shoes.onrender.com/api/cart/payment";
+                return axios.post(
+                    paymentUrl,
+                    { payment: this.cartPay },
+                    {
+                        headers: this.headers,
+                    }
+                );
             },
             paymentForCart() {
                 if (this.proceed) {
-                    this.pay().then(result => {
+                    this.pay().then((result) => {
                         // get the error
                         const { error } = result.data;
                         if (error) {
                             paymentMsg.innerHTML = error;
                             paymentMsg.classList.add("text-[#ff4a1c]");
-    
+
                             setTimeout(() => {
                                 paymentMsg.innerHTML = "";
                             }, 3000);
-    
+
                             return;
-                        };
-                        
+                        }
+
                         const response = result.data;
                         if (response.status === "success") {
                             paymentMsg.innerHTML = "Payment successful.";
@@ -239,41 +252,48 @@ document.addEventListener("alpine:init", () => {
                             // Clear the cart
                             this.cart = [];
                             // Set the total to zero
-                            this.total = 0.00
+                            this.total = 0.0;
 
                             // Store the updated purchaseHistory in localStorage
-                            localStorage.setItem('purchaseHistory', JSON.stringify(this.purchaseHistory));
-    
+                            localStorage.setItem(
+                                "purchaseHistory",
+                                JSON.stringify(this.purchaseHistory)
+                            );
+
                             setTimeout(() => {
                                 paymentMsg.innerHTML = "";
                             }, 3000);
-                        };
+                        }
                     });
-                };
+                }
             },
 
             // Remove a shoe in the cart
             removeShoe(shoeId) {
                 const removeUrl = `https://api-for-shoes.onrender.com/api/cart/shoeId/${shoeId}/removeAShoe`;
-                return axios.post(removeUrl, {}, {
-                    headers: this.headers
-               });
+                return axios.post(
+                    removeUrl,
+                    {},
+                    {
+                        headers: this.headers,
+                    }
+                );
             },
             removeShoeFromCart(shoeId) {
-                this.removeShoe(shoeId).then(result => {
+                this.removeShoe(shoeId).then((result) => {
                     const response = result.data;
-                    if(response.status === "success") {
+                    if (response.status === "success") {
                         this.showShoes();
                         this.showCart();
-                    };
-                })
+                    }
+                });
             },
 
             clear() {
                 if (this.proceed) {
                     localStorage["purchaseHistory"] = JSON.stringify([]);
                     location.reload();
-                };
+                }
             },
 
             // Make a shoe to display in the catalog
@@ -285,42 +305,42 @@ document.addEventListener("alpine:init", () => {
                 qty: "",
                 shoePrice: "",
                 shoeColor: "",
-                shoeSize: ""
+                shoeSize: "",
             },
             makeAShoe() {
                 const shoes = "https://api-for-shoes.onrender.com/api/shoes";
                 return axios.post(shoes, this.shoe);
             },
             showShoe() {
-                this.makeAShoe().then(result => {
+                this.makeAShoe().then((result) => {
                     const response = result.data;
                     if (response.status === "success") {
                         this.showShoes();
-                    };
+                    }
                 });
             },
 
             increaseShoeQty(shoeId) {
                 if (this.proceed) {
                     const increaseShoeQtyUrl = `https://api-for-shoes.onrender.com/api/shoes/shoeId/${shoeId}/add`;
-                    return axios.post(increaseShoeQtyUrl).then(result => {
+                    return axios.post(increaseShoeQtyUrl).then((result) => {
                         const response = result.data;
                         if (response.status === "success") {
                             this.showShoes();
-                        };
+                        }
                     });
-                };
+                }
             },
             removeShoeInDispay(shoeId) {
                 if (this.proceed) {
                     const increaseShoeQtyUrl = `https://api-for-shoes.onrender.com/api/shoes/shoeId/${shoeId}/remove`;
-                    return axios.post(increaseShoeQtyUrl).then(result => {
+                    return axios.post(increaseShoeQtyUrl).then((result) => {
                         const response = result.data;
                         if (response.status === "success") {
                             this.showShoes();
-                        };
+                        }
                     });
-                };
+                }
             },
 
             // Filtering functionality
@@ -331,43 +351,34 @@ document.addEventListener("alpine:init", () => {
             },
 
             filter() {
-                // If truthy execute code
-                if (this.dropdownValues.brandname && this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/size/${this.dropdownValues.size}`;
-                    return axios.get(filterUrl);
+                const baseUrl = "https://api-for-shoes.onrender.com/api/shoes/brand";
 
-                };
-
-                if (this.dropdownValues.brandname && this.dropdownValues.color && this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
-                    return axios.get(filterUrl);
-
-                };
-
-                // Otherwise, execute this code
                 if (this.dropdownValues.brandname) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}`;
+                    let filterUrl = `${baseUrl}/${this.dropdownValues.brandname}`;
+
+                    if (this.dropdownValues.size) {
+                        filterUrl += `/size/${this.dropdownValues.size}`;
+                    };
+
+                    if (this.dropdownValues.color) {
+                        filterUrl += `/color/${this.dropdownValues.color}`;
+                    };
+
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.color) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.dropdownValues.color}`;
+                    const filterUrl = `${baseUrl}/color/${this.dropdownValues.color}`;
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.dropdownValues.size}`;
+                    const filterUrl = `${baseUrl}/size/${this.dropdownValues.size}`;
                     return axios.get(filterUrl);
                 };
-
-                if (this.dropdownValues.brandname && this.dropdownValues.color) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}`;
-                    return axios.get(filterUrl);
-                };
-
             },
             filtered() {
-                this.filter().then(result => {
+                this.filter().then((result) => {
                     const response = result.data.data;
                     this.shoes = response;
 
@@ -379,8 +390,8 @@ document.addEventListener("alpine:init", () => {
                             errorMsg.innerHTML = "";
                             this.showShoes();
                         }, 3000);
-                    };
-                })
+                    }
+                });
             },
 
             init() {
@@ -393,10 +404,9 @@ document.addEventListener("alpine:init", () => {
                 if (localStorage["adminToken"]) {
                     this.createShoe = true;
                     this.loggedIn = true;
-
                 } else if (localStorage["token"]) {
                     this.loggedIn = true;
-                };
+                }
             },
         };
     });
