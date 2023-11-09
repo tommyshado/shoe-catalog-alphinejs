@@ -21,14 +21,6 @@ Log in as a shopper <br>
 
 Or create a shopper using the signup page
 
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/tommyshado/shoe-catalog-alpinejs.git
-```
-
 ## Tech Stack
 
 **Client:** AlpineJs, TailwindCSS and DOM
