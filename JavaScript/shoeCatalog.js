@@ -59,9 +59,9 @@ document.addEventListener("alpine:init", () => {
                     }
 
                     const token = result.data.token;
-                    const checkName = this.getUser.name === "tendani";
+                    const checkRole = result.data.role.role === "admin";
 
-                    if (checkName) {
+                    if (checkRole) {
                         localStorage["adminToken"] = token;
                         // Redirect to the home page
                         if (localStorage["adminToken"]) {
@@ -69,7 +69,7 @@ document.addEventListener("alpine:init", () => {
                         } else {
                             window.location.href = "login.html";
                         }
-                    } else if (!checkName) {
+                    } else if (!checkRole) {
                         localStorage["token"] = token;
                         window.location.href = "index.html";
                     }
@@ -212,12 +212,10 @@ document.addEventListener("alpine:init", () => {
 
             // Payment
             proceed: false,
-            purchaseHistory:
-                JSON.parse(localStorage.getItem("purchaseHistory")) || [],
+            purchaseHistory: JSON.parse(localStorage.getItem("purchaseHistory")) || [],
 
             pay() {
-                const paymentUrl =
-                    "https://api-for-shoes.onrender.com/api/cart/payment";
+                const paymentUrl = "https://api-for-shoes.onrender.com/api/cart/payment";
                 return axios.post(
                     paymentUrl,
                     { payment: this.cartPay },
@@ -351,31 +349,38 @@ document.addEventListener("alpine:init", () => {
             },
 
             filter() {
-                const baseUrl = "https://api-for-shoes.onrender.com/api/shoes/brand";
+                // If truthy execute code
+                if (this.dropdownValues.brandname && this.dropdownValues.size) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/size/${this.dropdownValues.size}`;
+                    return axios.get(filterUrl);
+                };
 
+                if (this.dropdownValues.brandname && this.dropdownValues.color && this.dropdownValues.size) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
+                    return axios.get(filterUrl);
+                };
+
+                // Otherwise, execute this code
                 if (this.dropdownValues.brandname) {
-                    let filterUrl = `${baseUrl}/${this.dropdownValues.brandname}`;
-
-                    if (this.dropdownValues.size) {
-                        filterUrl += `/size/${this.dropdownValues.size}`;
-                    };
-
-                    if (this.dropdownValues.color) {
-                        filterUrl += `/color/${this.dropdownValues.color}`;
-                    };
-
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}`;
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.color) {
-                    const filterUrl = `${baseUrl}/color/${this.dropdownValues.color}`;
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.dropdownValues.color}`;
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.size) {
-                    const filterUrl = `${baseUrl}/size/${this.dropdownValues.size}`;
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.dropdownValues.size}`;
                     return axios.get(filterUrl);
                 };
+
+                if (this.dropdownValues.brandname && this.dropdownValues.color) {
+                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}`;
+                    return axios.get(filterUrl);
+                };
+
             },
             filtered() {
                 this.filter().then((result) => {
