@@ -15,8 +15,8 @@ Log in as an admin <br>
 <span>Password:</span> 123456 <br>
 
 Log in as a shopper <br>
-<span>Username:</span> mthunzi <br>
-<span>Email:</span> mthunzi@gmail.com <br>
+<span>Username:</span> katlego <br>
+<span>Email:</span> katlego@gmail.com <br>
 <span>Password:</span> 123456 <br>
 
 Or create a shopper using the signup page
