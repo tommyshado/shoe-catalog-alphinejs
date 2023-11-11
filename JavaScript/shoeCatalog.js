@@ -349,35 +349,29 @@ document.addEventListener("alpine:init", () => {
             },
 
             filter() {
-                // If truthy execute code
-                if (this.dropdownValues.brandname && this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/size/${this.dropdownValues.size}`;
-                    return axios.get(filterUrl);
-                };
+                const baseUrl = "https://api-for-shoes.onrender.com/api/shoes/brand";
 
-                if (this.dropdownValues.brandname && this.dropdownValues.color && this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}/size/${this.dropdownValues.size}`;
-                    return axios.get(filterUrl);
-                };
-
-                // Otherwise, execute this code
                 if (this.dropdownValues.brandname) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}`;
+                    let filterUrl = `${baseUrl}/${this.dropdownValues.brandname}`;
+
+                    if (this.dropdownValues.color) {
+                        filterUrl += `/color/${this.dropdownValues.color}`;
+                    };
+
+                    if (this.dropdownValues.size) {
+                        filterUrl += `/size/${this.dropdownValues.size}`;
+                    };
+
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.color) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/color/${this.dropdownValues.color}`;
+                    const filterUrl = `${baseUrl}/color/${this.dropdownValues.color}`;
                     return axios.get(filterUrl);
                 };
 
                 if (this.dropdownValues.size) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/size/${this.dropdownValues.size}`;
-                    return axios.get(filterUrl);
-                };
-
-                if (this.dropdownValues.brandname && this.dropdownValues.color) {
-                    const filterUrl = `https://api-for-shoes.onrender.com/api/shoes/brand/${this.dropdownValues.brandname}/color/${this.dropdownValues.color}`;
+                    const filterUrl = `${baseUrl}/size/${this.dropdownValues.size}`;
                     return axios.get(filterUrl);
                 };
 
@@ -385,6 +379,7 @@ document.addEventListener("alpine:init", () => {
             filtered() {
                 this.filter().then((result) => {
                     const response = result.data.data;
+                    alert(JSON.stringify(response))
                     this.shoes = response;
 
                     if (this.shoes.length === 0) {
