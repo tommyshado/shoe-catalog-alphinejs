@@ -379,7 +379,6 @@ document.addEventListener("alpine:init", () => {
             filtered() {
                 this.filter().then((result) => {
                     const response = result.data.data;
-                    alert(JSON.stringify(response))
                     this.shoes = response;
 
                     if (this.shoes.length === 0) {
