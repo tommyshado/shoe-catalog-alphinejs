@@ -37,25 +37,25 @@
                     <div class="py-2">
                         <label name="name" for="name"><strong>Username</strong></label>
                         <div>
-                            <input x-model="getUser.name"
+                            <input x-model="getSignupUser.name"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="name"
-                                type="text" placeholder="Enter your name" />
+                                type="text" placeholder="Enter your name" required />
                         </div>
                     </div>
 
                     <div class="py-2">
                         <label name="email" for="email"><strong>Email</strong></label>
                         <div>
-                            <input x-model="getUser.email"
+                            <input x-model="getSignupUser.email"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="email"
-                                type="email" placeholder="Enter your email" />
+                                type="email" placeholder="Enter your email" required />
                         </div>
                     </div>
 
                     <div class="py-2">
                         <label for="password"><strong>Password</strong></label>
                         <div class="relative">
-                            <input x-model="getUser.password"
+                            <input x-model="getSignupUser.password"
                                 class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="password"
                                 type="password" placeholder="Enter your password" required />
                         </div>
