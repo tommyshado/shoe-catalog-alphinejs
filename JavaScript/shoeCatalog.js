@@ -25,11 +25,7 @@ document.addEventListener("alpine:init", () => {
             },
 
             // User
-            getLoginUser: {
-                emailOrName: "",
-                password: "",
-            },
-            getSignupUser: {
+            getUser: {
                 name: "",
                 email: "",
                 password: "",
@@ -38,7 +34,7 @@ document.addEventListener("alpine:init", () => {
             // user login
             login() {
                 const loginUrl = "https://api-for-shoes.onrender.com/api/user/login";
-                return axios.post(loginUrl, this.getLoginUser);
+                return axios.post(loginUrl, this.getUser);
             },
 
             // GET the token from the API
@@ -51,8 +47,9 @@ document.addEventListener("alpine:init", () => {
                         errorMsg.classList.add("text-[#ff4a1c]");
 
                         // Set the values in the login input areas to default
-                        this.getLoginUser.emailOrName = "";
-                        this.getLoginUser.password = "";
+                        this.getUser.name = "";
+                        this.getUser.email = "";
+                        this.getUser.password = "";
 
                         setTimeout(() => {
                             errorMsg.innerHTML = "";
@@ -82,7 +79,7 @@ document.addEventListener("alpine:init", () => {
             // user signup
             signup() {
                 const signupUrl = "https://api-for-shoes.onrender.com/api/user/signup";
-                return axios.post(signupUrl, this.getSignupUser).then((result) => {
+                return axios.post(signupUrl, this.getUser).then((result) => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
@@ -90,9 +87,9 @@ document.addEventListener("alpine:init", () => {
                         errorMsg.classList.add("text-[#ff4a1c]");
 
                         // Set the values in the signup input areas to default
-                        this.getSignupUser.name = "";
-                        this.getSignupUser.email = "";
-                        this.getSignupUser.password = "";
+                        this.getUser.name = "";
+                        this.getUser.email = "";
+                        this.getUser.password = "";
 
                         setTimeout(() => {
                             errorMsg.innerHTML = "";
