@@ -19,7 +19,7 @@ https://tommyshado.github.io/shoe-catalog-alpinejs/public/index.html
 
 <strong>Log in as a shopper</strong> <br>
 <span>Username:</span> katlego <br>
-<span>Email:</span> katlego@gmail.com <br>
+<span>Email:</span> katleho@gmail.com <br>
 <span>Password:</span> 123456 <br>
 
 Or create a shopper using the signup page
