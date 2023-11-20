@@ -12,12 +12,12 @@ https://tommyshado.github.io/shoe-catalog-alpinejs/public/index.html
 
 ## How to use:
 
-Log in as an admin <br>
+<strong><Log in as an admin</strong> <br>
 <span>Username:</span> tendani <br>
 <span>Email:</span> tendani@gmail.com <br>
 <span>Password:</span> 123456 <br>
 
-Log in as a shopper <br>
+<strong>Log in as a shopper</strong> <br>
 <span>Username:</span> katlego <br>
 <span>Email:</span> katlego@gmail.com <br>
 <span>Password:</span> 123456 <br>
