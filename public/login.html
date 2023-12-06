@@ -35,20 +35,11 @@
             <div class="loginForm">
                 <form @submit.prevent="getToken()">
                     <div class="py-2">
-                        <label name="name" for="name"><strong>Username</strong></label>
+                        <label name="username or email" for="username or email"><strong>Username or email</strong></label>
                         <div>
-                            <input x-model="getUser.name"
-                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="name"
-                                type="text" placeholder="Enter your name" />
-                        </div>
-                    </div>
-
-                    <div class="py-2">
-                        <label name="email" for="email"><strong>Email</strong></label>
-                        <div>
-                            <input x-model="getUser.email"
-                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="email"
-                                type="email" placeholder="Enter your email" />
+                            <input x-model="getUser.usernameOrEmail"
+                                class="text-[#000000] bg-[#5b5b5b] focus:bg-white rounded-md border-2" name="username or email"
+                                type="text" placeholder="Enter your username or email" />
                         </div>
                     </div>
 

@@ -26,8 +26,7 @@ document.addEventListener("alpine:init", () => {
 
             // User
             getUser: {
-                name: "",
-                email: "",
+                usernameOrEmail: "",
                 password: "",
             },
 
@@ -39,6 +38,7 @@ document.addEventListener("alpine:init", () => {
 
             // GET the token from the API
             getToken() {
+                alert(JSON.stringify(this.getUser))
                 this.login().then((result) => {
                     // get the error
                     const { error } = result.data;
@@ -47,8 +47,7 @@ document.addEventListener("alpine:init", () => {
                         errorMsg.classList.add("text-[#ff4a1c]");
 
                         // Set the values in the login input areas to default
-                        this.getUser.name = "";
-                        this.getUser.email = "";
+                        this.getUser.usernameOrEmail = "";
                         this.getUser.password = "";
 
                         setTimeout(() => {
@@ -59,7 +58,7 @@ document.addEventListener("alpine:init", () => {
                     }
 
                     const token = result.data.token;
-                    const checkRole = result.data.role.role === "admin";
+                    const checkRole = result.data.role === "admin";
 
                     if (checkRole) {
                         localStorage["adminToken"] = token;
