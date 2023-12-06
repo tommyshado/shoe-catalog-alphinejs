@@ -38,7 +38,6 @@ document.addEventListener("alpine:init", () => {
 
             // GET the token from the API
             getToken() {
-                alert(JSON.stringify(this.getUser))
                 this.login().then((result) => {
                     // get the error
                     const { error } = result.data;
