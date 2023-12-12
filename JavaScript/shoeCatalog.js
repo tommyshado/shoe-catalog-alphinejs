@@ -74,10 +74,16 @@ document.addEventListener("alpine:init", () => {
                 });
             },
 
+            signupUser: {
+                name: "",
+                email: "",
+                password: ""
+            },
+
             // user signup
             signup() {
                 const signupUrl = "https://api-for-shoes.onrender.com/api/user/signup";
-                return axios.post(signupUrl, this.getUser).then((result) => {
+                return axios.post(signupUrl, this.signupUser).then((result) => {
                     // get the error
                     const { error } = result.data;
                     if (error) {
@@ -85,9 +91,9 @@ document.addEventListener("alpine:init", () => {
                         errorMsg.classList.add("text-[#ff4a1c]");
 
                         // Set the values in the signup input areas to default
-                        this.getUser.name = "";
-                        this.getUser.email = "";
-                        this.getUser.password = "";
+                        this.signupUser.name = "";
+                        this.signupUser.email = "";
+                        this.signupUser.password = "";
 
                         setTimeout(() => {
                             errorMsg.innerHTML = "";
