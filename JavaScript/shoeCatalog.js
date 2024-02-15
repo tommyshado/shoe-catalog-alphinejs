@@ -250,7 +250,7 @@ document.addEventListener("alpine:init", () => {
                             paymentMsg.classList.add("text-[#1ed760]");
 
                             // Payment successful, add items to purchase history
-                            this.purchaseHistory.push(...this.cart);
+                            this.purchaseHistory.push(...response.data);
                             // Clear the cart
                             this.cart = [];
                             // Set the total to zero

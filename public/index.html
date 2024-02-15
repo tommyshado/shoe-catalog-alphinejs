@@ -16,361 +16,369 @@
 </head>
 
 <body x-data="catalog">
-	<!-- navbar section -->
-	<nav class="bg-[#f6f6f6] py-4 flex justify-between items-center">
-		<h1 class="text-3xl lg:text-4xl font-bold" style="margin-left: 1rem">
-			<strong>Shesha footwear store</strong>
-		</h1>
+	<div x-show="shoes.length > 0" x-cloak>
+		<!-- navbar section -->
+		<nav class="bg-[#f6f6f6] py-4 flex justify-between items-center">
+			<h1 class="text-3xl lg:text-4xl font-bold" style="margin-left: 1rem">
+				<strong>Shesha footwear store</strong>
+			</h1>
 
-		<ul class="flex space-x-4">
-			<li>
-				<a class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="!loggedIn" href="login.html">Login</a>
-			</li>
-			<li>
-				<a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="signup.html">Signup</a>
-			</li>
-			<li style="margin-right: 2rem">
-				<button class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="loggedIn" @click="logout()">
-					logout
-				</button>
-			</li>
-		</ul>
-	</nav>
+			<ul class="flex space-x-4">
+				<li>
+					<a class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="!loggedIn" href="login.html">Login</a>
+				</li>
+				<li>
+					<a class="text-1xl lg:text-2xl" x-show="!loggedIn" href="signup.html">Signup</a>
+				</li>
+				<li style="margin-right: 2rem">
+					<button class="text-1xl lg:text-2xl text-orange-600 font-bold" x-show="loggedIn" @click="logout()">
+						logout
+					</button>
+				</li>
+			</ul>
+		</nav>
 
-	<!-- message section -->
-	<div class="bg-[#f6f6f6]">
-		<div class="errorMsg flex justify-center items-center text-2xl font-bold"></div>
-		<div class="payment flex justify-center items-center text-2xl font-bold"></div>
-	</div>
+		<!-- message section -->
+		<div class="bg-[#f6f6f6]">
+			<div class="errorMsg flex justify-center items-center text-2xl font-bold"></div>
+			<div class="payment flex justify-center items-center text-2xl font-bold"></div>
+		</div>
 
-	<!-- shopping cart section -->
-	<div class="bg-[#f6f6f6] py-4 text-xl font-semibold" x-show="total > 0 && !createShoe" x-cloak>
-		<h2 class="flex justify-center items-center text-2xl lg:text-3xl font-bold py-10">
-			<strong>Shopping Cart</strong>
-		</h2>
+		<!-- shopping cart section -->
+		<div class="bg-[#f6f6f6] py-4 text-xl font-semibold" x-show="total > 0 && !createShoe" x-cloak>
+			<h2 class="flex justify-center items-center text-2xl lg:text-3xl font-bold py-10">
+				<strong>Shopping Cart</strong>
+			</h2>
 
-		<div class="flex flex-wrap justify-center items-center">
-			<div class="cartSection px-10">
-				<table class="table-auto border-collapse border-4">
-					<tr class="border-b-4">
+			<div class="flex flex-wrap justify-center items-center">
+				<div class="cartSection px-10">
+					<table class="table-auto border-collapse border-4">
+						<tr class="border-b-4">
+							<th class="px-3 py-2">Product</th>
+							<th class="px-3 py-2">Quantity</th>
+						</tr>
+
+						<template x-for="shoe in cart">
+							<tr class="border-b-4">
+								<td class="px-3 py-2" x-text="shoe.description"></td>
+								<td class="px-3 py-2">
+									<ul class="flex">
+										<li class="px-2 py-2">
+											<button @click="decrementShoeQty(shoe.shoe_id)">
+												<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+													fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+													<path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+												</svg>
+											</button>
+										</li>
+										<li class="border-2 border-black px-2 py-2" x-text="shoe.quantity"></li>
+										<li class="px-2 py-2">
+											<button @click="addShoeToCart(shoe.shoe_id)">
+												<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+													fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+													<path fill-rule="evenodd"
+														d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+												</svg>
+											</button>
+										</li>
+									</ul>
+								</td>
+								<td class="px-3 py-2" x-text="'R' + ' ' + shoe.total"></td>
+								<td class="px-3 py-2">
+									<button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+											class="bi bi-trash-fill" viewBox="0 0 16 16">
+											<path
+												d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+						</template>
+					</table>
+				</div>
+
+				<!-- payment section -->
+				<div class="paymentSection px-10 border-2 border-black bg-[#DADADA]">
+					<h2 class="border-b-4 border-black ">
+						<strong>
+							Order Summary
+						</strong>
+					</h2>
+					<!-- cart total -->
+					<div class="py-2">
+						<strong><span>Total: </span></strong><label class="px-40 text-xl text-orange-600 font-bold"
+							x-text="'R ' + total"></label><br />
+					</div>
+
+					<div>
+						<strong>
+							<span>Payment here: </span>
+						</strong>
+						<input class="border-2 border-black" x-model="cartPay" name="payment" type="number" /><br>
+
+						<div class="flex justify-center items-center py-2">
+							<strong>
+								<button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
+									class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-4 px-8 py-1 rounded-full" type="submit"
+									@click="paymentForCart()">
+									pay
+								</button>
+							</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- creating a shoe -->
+		<div class="flex flex-wrap justify-center items-center py-4 text-xl font-semibold" x-show="createShoe" x-cloak>
+			<!-- loop over the length of the shoes purchases from localStorage then... -->
+			<div class="shoePurchases px-10 m-4 border-2 border-black bg-[#f6f6f6]" x-show="purchaseHistory.length > 0">
+				<h2 class="py-2 border-b-4 border-black">
+					<strong> Purchase History: </strong>
+				</h2>
+
+				<table>
+					<tr>
+						<th class="px-3 py-2">Name</th>
 						<th class="px-3 py-2">Product</th>
 						<th class="px-3 py-2">Quantity</th>
+						<th class="px-3 py-2">Date</th>
+						<th class="px-3 py-2">Time</th>
 					</tr>
 
-					<template x-for="shoe in cart">
-						<tr class="border-b-4">
-							<td class="px-3 py-2" x-text="shoe.description"></td>
-							<td class="px-3 py-2">
-								<ul class="flex">
-									<li class="px-2 py-2">
-										<button @click="decrementShoeQty(shoe.shoe_id)">
-											<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-												fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
-												<path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-											</svg>
-										</button>
-									</li>
-									<li class="border-2 border-black px-2 py-2" x-text="shoe.quantity"></li>
-									<li class="px-2 py-2">
-										<button @click="addShoeToCart(shoe.shoe_id)">
-											<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-												fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-												<path fill-rule="evenodd"
-													d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-											</svg>
-										</button>
-									</li>
-								</ul>
-							</td>
-							<td class="px-3 py-2" x-text="'R' + ' ' + shoe.total"></td>
-							<td class="px-3 py-2">
-								<button @click="removeShoeFromCart(shoe.shoe_id)" type="submit">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-										class="bi bi-trash-fill" viewBox="0 0 16 16">
-										<path
-											d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-									</svg>
-								</button>
-							</td>
+					<!-- display the shoes -->
+					<template x-for="item in purchaseHistory">
+						<tr>
+							<td class="px-3 py-2" x-text="item.username"></td>
+							<td class="px-3 py-2" x-text="item.description"></td>
+							<td class="px-3 py-2" x-text="item.quantity"></td>
+							<td class="px-3 py-2" x-text="item.date"></td>
+							<td class="px-3 py-2" x-text="item.time"></td>
+							<td class="px-3 py-2" x-text="'R' + ' ' + item.total"></td>
 						</tr>
 					</template>
 				</table>
+
+				<div class="flex justify-center items-center">
+					<button x-on:click="proceed = confirm('Press OK to clear the purchase history or CANCEL to abort.')"
+						class="text-[#fa6300]" @click="clear()">
+						Clear history
+					</button>
+				</div>
 			</div>
 
-			<!-- payment section -->
-			<div class="paymentSection px-10 border-2 border-black bg-[#DADADA]">
-				<h2 class="border-b-4 border-black ">
-					<strong>
-						Order Summary
-					</strong>
-				</h2>
-				<!-- cart total -->
-				<div class="py-2">
-					<strong><span>Total: </span></strong><label class="px-40 text-xl text-orange-600 font-bold"
-						x-text="'R ' + total"></label><br />
-				</div>
+			<div class="shoeForm px-10 m-4 border-l-2 border-b-2">
+				<label for="shoeName">
+					<h2>
+						<strong> Add a shoe to the catalog </strong>
+					</h2>
+				</label>
 
 				<div>
-					<strong>
-						<span>Payment here: </span>
-					</strong>
-					<input class="border-2 border-black" x-model="cartPay" name="payment" type="number" /><br>
-
-					<div class="flex justify-center items-center py-2">
-						<strong>
-							<button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
-								class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-4 px-8 py-1 rounded-full" type="submit"
-								@click="paymentForCart()">
-								pay
-							</button>
-						</strong>
+					<div class="py-2">
+						<label for="shoeName">Name of the shoe</label>
+						<div>
+							<input x-model="shoe.shoeName" class="focus:bg-white rounded-md border-2" name="shoeName"
+								type="text" placeholder="enter shoe name" required />
+						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<!-- creating a shoe -->
-	<div class="flex flex-wrap justify-center items-center py-4 text-xl font-semibold" x-show="createShoe" x-cloak>
-		<!-- loop over the length of the shoes purchases from localStorage then... -->
-		<div class="shoePurchases px-10 m-4 border-2 border-black bg-[#f6f6f6]" x-show="purchaseHistory.length > 0">
-			<h2 class="py-2 border-b-4 border-black">
-				<strong> Purchase History: </strong>
-			</h2>
-
-			<table>
-				<tr>
-					<th class="px-3 py-2">Product</th>
-					<th class="px-3 py-2">Quantity</th>
-				</tr>
-
-				<!-- display the shoes -->
-				<template x-for="purchase in purchaseHistory">
-					<tr>
-						<td class="px-3 py-2" x-text="purchase.description"></td>
-						<td class="px-3 py-2" x-text="purchase.quantity"></td>
-						<td class="px-3 py-2" x-text="'R' + ' ' + purchase.total"></td>
-					</tr>
-				</template>
-			</table>
-
-			<div class="flex justify-center items-center">
-				<button x-on:click="proceed = confirm('Press OK to clear the purchase history or CANCEL to abort.')"
-					class="text-[#fa6300]" @click="clear()">
-					Clear history
-				</button>
-			</div>
-		</div>
-
-		<div class="shoeForm px-10 m-4 border-l-2 border-b-2">
-			<label for="shoeName">
-				<h2>
-					<strong> Add a shoe to the catalog </strong>
-				</h2>
-			</label>
-
-			<div>
-				<div class="py-2">
-					<label for="shoeName">Name of the shoe</label>
-					<div>
-						<input x-model="shoe.shoeName" class="focus:bg-white rounded-md border-2" name="shoeName"
-							type="text" placeholder="enter shoe name" required />
+					<div class="py-2">
+						<label for="description">Shoe description</label>
+						<div>
+							<input x-model="shoe.description" class="focus:bg-white rounded-md border-2" name="description"
+								type="text" placeholder="enter image description" required />
+						</div>
 					</div>
-				</div>
 
-				<div class="py-2">
-					<label for="description">Shoe description</label>
-					<div>
-						<input x-model="shoe.description" class="focus:bg-white rounded-md border-2" name="description"
-							type="text" placeholder="enter image description" required />
+					<div class="py-2">
+						<label for="ageGroup">Catagory</label>
+						<div>
+							<input x-model="shoe.ageGroup" class="focus:bg-white rounded-md border-2" name="ageGroup"
+								type="text" placeholder="enter men, women or kid" required />
+						</div>
+					</div>
+
+					<div class="py-2">
+						<label for="image">Shoe image</label>
+						<div>
+							<input x-model="shoe.image" class="focus:bg-white rounded-md border-2" name="image" type="text"
+								placeholder="enter image url" required />
+						</div>
+					</div>
+
+					<div class="py-2">
+						<label for="qty">Shoe quantity</label>
+						<div>
+							<input x-model="shoe.qty" class="focus:bg-white rounded-md border-2" name="qty" type="number"
+								placeholder="enter number of stock" required />
+						</div>
+					</div>
+
+					<div class="py-2">
+						<label for="shoePrice">Price of the shoe</label>
+						<div>
+							<input x-model="shoe.shoePrice" class="focus:bg-white rounded-md border-2" name="shoePrice"
+								type="number" placeholder="enter a shoe price" required />
+						</div>
+					</div>
+
+					<div class="py-2">
+						<label for="shoeColor">Color of the shoe</label>
+						<div>
+							<input x-model="shoe.shoeColor" class="focus:bg-white rounded-md border-2" name="shoeColor"
+								type="text" placeholder="enter a shoe color" required />
+						</div>
+					</div>
+
+					<div class="py-2">
+						<label for="shoeSize">Size of the shoe</label>
+						<div>
+							<input x-model="shoe.shoeSize" class="focus:bg-white rounded-md border-2" name="shoeSize"
+								type="number" placeholder="enter a shoe size" required />
+						</div>
 					</div>
 				</div>
 
-				<div class="py-2">
-					<label for="ageGroup">Catagory</label>
-					<div>
-						<input x-model="shoe.ageGroup" class="focus:bg-white rounded-md border-2" name="ageGroup"
-							type="text" placeholder="enter men, women or kid" required />
-					</div>
-				</div>
-
-				<div class="py-2">
-					<label for="image">Shoe image</label>
-					<div>
-						<input x-model="shoe.image" class="focus:bg-white rounded-md border-2" name="image" type="text"
-							placeholder="enter image url" required />
-					</div>
-				</div>
-
-				<div class="py-2">
-					<label for="qty">Shoe quantity</label>
-					<div>
-						<input x-model="shoe.qty" class="focus:bg-white rounded-md border-2" name="qty" type="number"
-							placeholder="enter number of stock" required />
-					</div>
-				</div>
-
-				<div class="py-2">
-					<label for="shoePrice">Price of the shoe</label>
-					<div>
-						<input x-model="shoe.shoePrice" class="focus:bg-white rounded-md border-2" name="shoePrice"
-							type="number" placeholder="enter a shoe price" required />
-					</div>
-				</div>
-
-				<div class="py-2">
-					<label for="shoeColor">Color of the shoe</label>
-					<div>
-						<input x-model="shoe.shoeColor" class="focus:bg-white rounded-md border-2" name="shoeColor"
-							type="text" placeholder="enter a shoe color" required />
-					</div>
-				</div>
-
-				<div class="py-2">
-					<label for="shoeSize">Size of the shoe</label>
-					<div>
-						<input x-model="shoe.shoeSize" class="focus:bg-white rounded-md border-2" name="shoeSize"
-							type="number" placeholder="enter a shoe size" required />
-					</div>
-				</div>
-			</div>
-
-			<div class="flex justify-center items-center">
-				<button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full" @click="showShoe()"
-					type="submit">
-					<strong> Add shoe </strong>
-				</button>
-			</div>
-		</div>
-	</div>
-
-	<div class="flex py-10" style="overflow-x: hidden">
-		<!-- filters section -->
-		<div class="filters w-1/4" style="margin-left: 1rem">
-			<h2 class="text-2xl font-bold">Filters</h2>
-
-			<div class="text-xl font-semibold text-gray-900 px-4 py-2 border-b-4 border-r-4">
-				<div class="brand">
-					<h3>
-						<strong>Brands</strong>
-					</h3>
-
-					<!-- Get brands from the value -->
-					<div class="px-4 py-2">
-						<select x-model="dropdownValues.brandname">
-							<option>Select brand</option>
-							<option>adidas</option>
-							<option>nike</option>
-							<option>puma</option>
-							<option>asics</option>
-							<option>air jordan</option>
-							<option>converse</option>
-							<option>crocs</option>
-							<option>Birkenstock</option>
-							<option>clarks</option>
-							<option>vans</option>
-							<option>reebok</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="color">
-					<h3>
-						<strong>Color</strong>
-					</h3>
-
-					<!-- Get color from the value -->
-					<div class="px-4 py-2">
-						<select x-model="dropdownValues.color">
-							<option>Select color</option>
-							<option>white</option>
-							<option>black</option>
-							<option>purple</option>
-							<option>brown</option>
-							<option>orange</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="sizes">
-					<h3>
-						<strong>Size</strong>
-					</h3>
-
-					<!-- Get size from the value -->
-					<div class="px-4 py-2">
-						<select x-model="dropdownValues.size">
-							<option>Select size</option>
-							<option>4</option>
-							<option>5</option>
-							<option>6</option>
-							<option>7</option>
-							<option>8</option>
-							<option>9</option>
-						</select>
-					</div>
-
-					<div class="filterBtn m-4 px-4 py-1 border-b-4">
-						<button class="text-[#fa6300]" @click="filtered()">
-							<strong>
-								Filter
-							</strong>
-						</button>
-					</div>
-				</div>
-
-				<!-- button to show all the shoes -->
-				<div class="showAllShoes">
-					<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
-						@click="showShoes()">
-						<strong>
-							Show All
-						</strong>
+				<div class="flex justify-center items-center">
+					<button class="bg-[#fb953e] text-[#fff] hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full" @click="showShoe()"
+						type="submit">
+						<strong> Add shoe </strong>
 					</button>
 				</div>
 			</div>
 		</div>
 
-		<!-- shoes section -->
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-			<template x-for="shoe in shoes">
-				<div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center pl-4"
-					style="margin-left: 2rem">
-					<img x-bind:src="shoe.image" alt="shoe" class="w-full h-auto" />
-					<strong class="block mt-2 text-xl font-semibold text-gray-900"><span
-							x-text="shoe.shoe_name"></span></strong>
-					<strong class="mt-2 text-gray-800"><span x-text="shoe.description"></span></strong>
-					<p class="text-gray-700">
-						Quantity: <span x-text="shoe.shoe_qty"></span>
-					</p>
-					<p class="text-xl text-orange-600 font-bold">
-						R <span x-text="shoe.shoe_price"></span>.00
-					</p>
-					<div class="flex justify-center items-center mt-4">
-						<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 p rounded-full"
-							x-show="!createShoe && shoe.shoe_qty !== '0'" @click="addShoeToCart(shoe.shoe_id)">
-							<strong>Quick Add+</strong>
-						</button>
-						<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
-							x-show="!createShoe && shoe.shoe_qty === '0'" @click="setMessage()">
-							<strong>Out of stock</strong>
-						</button>
-						<div class="flex">
-							<button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
-								class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
-								x-show="createShoe" @click="increaseShoeQty(shoe.shoe_id)">
-								<strong>Add Qty+</strong>
-							</button>
-							<button
-								x-on:click="proceed = confirm('Press OK to remove a shoe from display or CANCEL to abort.')"
-								class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
-								x-show="createShoe" @click="removeShoeInDisplay(shoe.shoe_id)">
-								<strong>Remove-</strong>
+		<div class="flex py-10" style="overflow-x: hidden">
+			<!-- filters section -->
+			<div class="filters w-1/4" style="margin-left: 1rem">
+				<h2 class="text-2xl font-bold">Filters</h2>
+
+				<div class="text-xl font-semibold text-gray-900 px-4 py-2 border-b-4 border-r-4">
+					<div class="brand">
+						<h3>
+							<strong>Brands</strong>
+						</h3>
+
+						<!-- Get brands from the value -->
+						<div class="px-4 py-2">
+							<select x-model="dropdownValues.brandname">
+								<option>Select brand</option>
+								<option>adidas</option>
+								<option>nike</option>
+								<option>puma</option>
+								<option>asics</option>
+								<option>air jordan</option>
+								<option>converse</option>
+								<option>crocs</option>
+								<option>Birkenstock</option>
+								<option>clarks</option>
+								<option>vans</option>
+								<option>reebok</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="color">
+						<h3>
+							<strong>Color</strong>
+						</h3>
+
+						<!-- Get color from the value -->
+						<div class="px-4 py-2">
+							<select x-model="dropdownValues.color">
+								<option>Select color</option>
+								<option>white</option>
+								<option>black</option>
+								<option>purple</option>
+								<option>brown</option>
+								<option>orange</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="sizes">
+						<h3>
+							<strong>Size</strong>
+						</h3>
+
+						<!-- Get size from the value -->
+						<div class="px-4 py-2">
+							<select x-model="dropdownValues.size">
+								<option>Select size</option>
+								<option>4</option>
+								<option>5</option>
+								<option>6</option>
+								<option>7</option>
+								<option>8</option>
+								<option>9</option>
+							</select>
+						</div>
+
+						<div class="filterBtn m-4 px-4 py-1 border-b-4">
+							<button class="text-[#fa6300]" @click="filtered()">
+								<strong>
+									Filter
+								</strong>
 							</button>
 						</div>
 					</div>
+
+					<!-- button to show all the shoes -->
+					<div class="showAllShoes">
+						<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
+							@click="showShoes()">
+							<strong>
+								Show All
+							</strong>
+						</button>
+					</div>
 				</div>
-			</template>
+			</div>
+
+			<!-- shoes section -->
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+				<template x-for="shoe in shoes">
+					<div class="card w-full max-w-sm rounded-md overflow-hidden shadow-lg m-1 content-center pl-4"
+						style="margin-left: 2rem">
+						<img x-bind:src="shoe.image" alt="shoe" class="w-full h-auto" />
+						<strong class="block mt-2 text-xl font-semibold text-gray-900"><span
+								x-text="shoe.shoe_name"></span></strong>
+						<strong class="mt-2 text-gray-800"><span x-text="shoe.description"></span></strong>
+						<p class="text-gray-700">
+							Quantity: <span x-text="shoe.shoe_qty"></span>
+						</p>
+						<p class="text-xl text-orange-600 font-bold">
+							R <span x-text="shoe.shoe_price"></span>.00
+						</p>
+						<div class="flex justify-center items-center mt-4">
+							<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 p rounded-full"
+								x-show="!createShoe && shoe.shoe_qty !== '0'" @click="addShoeToCart(shoe.shoe_id)">
+								<strong>Quick Add+</strong>
+							</button>
+							<button class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
+								x-show="!createShoe && shoe.shoe_qty === '0'" @click="setMessage()">
+								<strong>Out of stock</strong>
+							</button>
+							<div class="flex">
+								<button x-on:click="proceed = confirm('Press OK to proceed or CANCEL to abort.')"
+									class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
+									x-show="createShoe" @click="increaseShoeQty(shoe.shoe_id)">
+									<strong>Add Qty+</strong>
+								</button>
+								<button
+									x-on:click="proceed = confirm('Press OK to remove a shoe from display or CANCEL to abort.')"
+									class="bg-[#fb953e] text-white hover:bg-[#fa6300] m-4 px-4 py-1 rounded-full"
+									x-show="createShoe" @click="removeShoeInDisplay(shoe.shoe_id)">
+									<strong>Remove-</strong>
+								</button>
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
 		</div>
 	</div>
 </body>
