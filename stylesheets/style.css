@@ -8,3 +8,9 @@ body {
 [x-cloak] { 
     display: none !important; 
 }
+
+.loading-content {
+    display: flex;
+    justify-content: center;
+    padding-top: 20rem;
+}
